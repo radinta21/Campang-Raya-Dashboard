@@ -277,7 +277,7 @@
     <aside id="sidebar" class="w-64 bg-gray-700 text-white flex flex-col p-5 shadow-lg
                              transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-50">
         <div class="flex items-center justify-center mb-6">
-            <img src="Biznet Logo.png" alt="Biznet Logo" class="h-20 w-auto">
+            <img src="Biznet_Logo.png" alt="Biznet Logo" class="h-20 w-auto">
         </div>
         <h3 class="text-xl font-semibold text-center mb-6">Dashboard Branch Bandar Lampung Campang Raya</h3>
         <nav class="flex-grow">
@@ -349,12 +349,12 @@
 
     <!-- Main Content Area -->
     <div id="content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out md:ml-64">
-        <header class="bg-white shadow p-4 flex items-center justify-between">
-            <button id="sidebarToggle" class="text-gray-600 focus:outline-none md:hidden" onclick="toggleSidebar()">
+        <header class="bg-white shadow p-3 sm:p-4 flex items-center justify-between gap-2">
+            <button id="sidebarToggle" class="text-gray-600 focus:outline-none md:hidden flex-shrink-0" onclick="toggleSidebar()">
                 <i class="fas fa-bars text-xl"></i>
             </button>
-            <h1 class="text-xl font-semibold text-gray-800 text-center flex-1">Dashboard Data Customer Biznet Bandar Lampung Campang Raya</h1>
-            <div id="realTimeClock" class="text-gray-600 text-sm font-medium ml-4"></div>
+            <h1 class="text-sm sm:text-lg md:text-xl font-semibold text-gray-800 text-center flex-1 min-w-0 leading-snug">Dashboard Data Customer Biznet Bandar Lampung Campang Raya</h1>
+            <div id="realTimeClock" class="header-clock text-gray-600 text-xs sm:text-sm font-medium ml-2 sm:ml-4 flex-shrink-0 whitespace-nowrap"></div>
         </header>
 
         <main class="flex-1 p-4 md:p-6 overflow-y-auto overflow-x-auto">
@@ -402,7 +402,7 @@
                     </div>
 
                     <!-- ================= INSIGHT BULAN BERJALAN ================= -->
-                    <div class="flex items-center justify-between mb-4 mt-2">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-4 mt-2">
                         <h3 class="text-lg font-bold text-gray-800">Insight Bulan Berjalan</h3>
                         <span id="insightPeriodLabel" class="text-xs font-medium text-gray-400"></span>
                     </div>
@@ -663,6 +663,46 @@
                             </div>
                             <div class="flex justify-end space-x-3 mt-6 border-t pt-4">
                                 <button type="button" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors duration-200" onclick="closeModal('chartDetailModal')">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overview Insight Detail Modal (Terminasi per Sales Code & Umur Suspend) -->
+                    <div id="overviewDetailModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-[1070] p-2">
+                        <div class="bg-white p-4 sm:p-6 rounded-lg shadow-xl w-full md:w-11/12 lg:w-5/6 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+                            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                                <h5 class="text-base sm:text-xl font-semibold text-gray-800" id="overviewDetailModalLabel">Detail Customer</h5>
+                                <button type="button" class="text-gray-500 hover:text-gray-700 flex-shrink-0 ml-2" onclick="closeModal('overviewDetailModal')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <p id="overviewDetailModalHint" class="text-xs text-gray-500 mb-3 hidden">
+                                <i class="fas fa-info-circle text-green-600 mr-1"></i>
+                                Klik ikon <i class="fab fa-whatsapp text-green-600"></i> pada tiap baris untuk langsung membuka chat WhatsApp ke customer.
+                            </p>
+                            <div class="overflow-x-auto rounded-lg shadow-md">
+                                <table class="min-w-full bg-white table-custom" id="overviewDetailTable">
+                                    <thead class="bg-gray-700 text-white">
+                                        <tr>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm rounded-tl-lg">Nama Lengkap</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Akun Kontrak</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Sales Code</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Mulai Kontrak</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Tgl Berakhir</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Status</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Bundle</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Subdistrict</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Status Modem</th>
+                                            <th id="overviewDetailActionHeader" class="py-3 px-4 uppercase font-semibold text-sm rounded-tr-lg hidden">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Customer data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="flex justify-end space-x-3 mt-6 border-t pt-4">
+                                <button type="button" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors duration-200" onclick="closeModal('overviewDetailModal')">Tutup</button>
                             </div>
                         </div>
                     </div>
@@ -2055,23 +2095,89 @@
         }
 
         // 7. Terminasi bulan berjalan per Sales Code
+        // Format nomor telepon Indonesia menjadi format internasional untuk link wa.me
+        function formatWhatsAppNumber(phone) {
+            if (!phone) return null;
+            let digits = String(phone).replace(/[^0-9]/g, '');
+            if (!digits) return null;
+            if (digits.startsWith('0')) digits = '62' + digits.substring(1);
+            else if (digits.startsWith('8')) digits = '62' + digits;
+            else if (!digits.startsWith('62')) digits = '62' + digits;
+            return digits;
+        }
+
+        // Menampilkan modal detail customer (dipakai oleh chart Terminasi per Sales Code & Umur Customer Suspend)
+        function showOverviewDetailModal(customers, modalTitle, showWhatsApp) {
+            const modalBodyTable = document.querySelector('#overviewDetailModal #overviewDetailTable tbody');
+            const actionHeader = document.getElementById('overviewDetailActionHeader');
+            const hintEl = document.getElementById('overviewDetailModalHint');
+            if (!modalBodyTable) return;
+            modalBodyTable.innerHTML = '';
+
+            if (showWhatsApp) {
+                actionHeader.classList.remove('hidden');
+                hintEl.classList.remove('hidden');
+            } else {
+                actionHeader.classList.add('hidden');
+                hintEl.classList.add('hidden');
+            }
+
+            if (!customers || customers.length === 0) {
+                modalBodyTable.innerHTML = `<tr><td colspan="10" class="text-center py-4">Tidak ada customer untuk kriteria ini.</td></tr>`;
+            } else {
+                customers.forEach(customer => {
+                    const row = modalBodyTable.insertRow();
+                    row.insertCell().textContent = customer.BP_FULLNAME || '-';
+                    row.insertCell().textContent = customer.CONTRACTACCOUNT || '-';
+                    row.insertCell().textContent = salesCodeNames[customer.SALESCODE] ? `${salesCodeNames[customer.SALESCODE]} (${customer.SALESCODE})` : (customer.SALESCODE || '-');
+                    row.insertCell().textContent = customer.CONTRACTSTARTDATE || '-';
+                    row.insertCell().textContent = customer.TERMDATE || '-';
+                    row.insertCell().textContent = customer.STATUS || '-';
+                    row.insertCell().textContent = customer.BUNDLE_NAME || '-';
+                    row.insertCell().textContent = customer.SUBDISTRICT_INST || '-';
+                    row.insertCell().textContent = customer.MODEM_STATUS || '-';
+
+                    if (showWhatsApp) {
+                        const actionCell = row.insertCell();
+                        const waNumber = formatWhatsAppNumber(customer.BILLING_PHONE);
+                        if (waNumber) {
+                            const waMessage = encodeURIComponent(`Halo ${customer.BP_FULLNAME || ''}, kami dari Biznet ingin menginformasikan mengenai status layanan Anda yang akan berakhir pada ${customer.TERMDATE || '-'}. Mohon informasinya, terima kasih.`);
+                            actionCell.innerHTML = `<a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-500 hover:text-white transition-colors" title="Chat WhatsApp"><i class="fab fa-whatsapp"></i></a>`;
+                        } else {
+                            actionCell.innerHTML = `<span class="text-gray-300" title="Nomor tidak tersedia"><i class="fab fa-whatsapp"></i></span>`;
+                        }
+                    }
+
+                    row.classList.add('hover:bg-gray-50');
+                    row.querySelectorAll('td').forEach(cell => cell.classList.add('py-2', 'px-4', 'text-sm', 'text-gray-700', 'whitespace-nowrap'));
+                });
+            }
+
+            document.getElementById('overviewDetailModalLabel').textContent = modalTitle;
+            showModal('overviewDetailModal');
+        }
+
+        // 7. Terminasi bulan berjalan (1 bulan penuh) per Sales Code
         function renderTerminationBySalesChart(startOfThisMonth, today) {
             const ctx = document.getElementById('terminationBySalesChart');
             if (!ctx) return;
             const context = ctx.getContext('2d');
             if (terminationBySalesChartInstance) terminationBySalesChartInstance.destroy();
 
-            const counts = {};
+            const endOfThisMonth = new Date(startOfThisMonth.getFullYear(), startOfThisMonth.getMonth() + 1, 0);
+            endOfThisMonth.setHours(23, 59, 59, 999);
+
+            const customersByCode = {};
             allCustomers.forEach(c => {
                 const d = parseDate(c.TERMDATE);
-                if (d && d >= startOfThisMonth && d <= today) {
+                if (d && d >= startOfThisMonth && d <= endOfThisMonth) {
                     const code = c.SALESCODE || 'Tidak Diketahui';
-                    counts[code] = (counts[code] || 0) + 1;
+                    (customersByCode[code] = customersByCode[code] || []).push(c);
                 }
             });
 
             const errorEl = document.getElementById('terminationBySalesError');
-            const sortedCodes = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+            const sortedCodes = Object.keys(customersByCode).sort((a, b) => customersByCode[b].length - customersByCode[a].length);
             if (sortedCodes.length === 0) {
                 context.clearRect(0, 0, ctx.width, ctx.height);
                 if (errorEl) { errorEl.classList.remove('hidden'); errorEl.textContent = 'Belum ada terminasi pada bulan berjalan.'; }
@@ -2080,7 +2186,7 @@
             if (errorEl) errorEl.classList.add('hidden');
 
             const labels = sortedCodes.map(code => salesCodeNames[code] ? `${salesCodeNames[code]}` : code);
-            const data = sortedCodes.map(code => counts[code]);
+            const data = sortedCodes.map(code => customersByCode[code].length);
 
             terminationBySalesChartInstance = new Chart(context, {
                 type: 'bar',
@@ -2092,40 +2198,42 @@
                     onClick: (evt, elements) => {
                         if (elements.length > 0) {
                             const code = sortedCodes[elements[0].index];
-                            showDetailedCustomersInModal([{ column: 'SALESCODE', value: code }, { column: 'STATUS', value: 'TERMINATED' }], `Terminasi Bulan Ini - ${labels[elements[0].index]}`);
+                            showOverviewDetailModal(customersByCode[code], `Terminasi Bulan Ini - ${labels[elements[0].index]}`, false);
                         }
                     }
                 }
             });
         }
 
-        // 8. Distribusi umur customer suspend yang akan terminate bulan ini
+        // 8. Distribusi umur customer suspend yang akan terminate bulan ini (1 bulan penuh)
         function renderSuspendAgeChart(startOfThisMonth, today) {
             const ctx = document.getElementById('suspendAgeChart');
             if (!ctx) return;
             const context = ctx.getContext('2d');
             if (suspendAgeChartInstance) suspendAgeChartInstance.destroy();
 
-            const buckets = { '< 90 Hari': 0, '90-180 Hari': 0, '180-365 Hari': 0, '1-2 Tahun': 0, '> 2 Tahun': 0 };
-            let found = 0;
+            const endOfThisMonth = new Date(startOfThisMonth.getFullYear(), startOfThisMonth.getMonth() + 1, 0);
+            endOfThisMonth.setHours(23, 59, 59, 999);
+
+            const bucketLabels = ['1-3 Bulan', '4-9 Bulan', '9-12 Bulan', '> 12 Bulan'];
+            const customersByBucket = { '1-3 Bulan': [], '4-9 Bulan': [], '9-12 Bulan': [], '> 12 Bulan': [] };
 
             allCustomers.forEach(c => {
                 if (!c.STATUS || c.STATUS.toUpperCase() !== 'SUSPENDED') return;
                 const term = parseDate(c.TERMDATE);
-                if (!term || term < startOfThisMonth || term > new Date(startOfThisMonth.getFullYear(), startOfThisMonth.getMonth() + 1, 0)) return;
+                if (!term || term < startOfThisMonth || term > endOfThisMonth) return;
                 const start = parseDate(c.CONTRACTSTARTDATE);
                 if (!start) return;
-                const ageDays = Math.round((term - start) / (1000 * 60 * 60 * 24));
-                found++;
-                if (ageDays < 90) buckets['< 90 Hari']++;
-                else if (ageDays < 180) buckets['90-180 Hari']++;
-                else if (ageDays < 365) buckets['180-365 Hari']++;
-                else if (ageDays < 730) buckets['1-2 Tahun']++;
-                else buckets['> 2 Tahun']++;
+                const ageMonths = (term - start) / (1000 * 60 * 60 * 24 * 30);
+                if (ageMonths <= 3) customersByBucket['1-3 Bulan'].push(c);
+                else if (ageMonths <= 9) customersByBucket['4-9 Bulan'].push(c);
+                else if (ageMonths <= 12) customersByBucket['9-12 Bulan'].push(c);
+                else customersByBucket['> 12 Bulan'].push(c);
             });
 
+            const totalFound = bucketLabels.reduce((sum, l) => sum + customersByBucket[l].length, 0);
             const errorEl = document.getElementById('suspendAgeError');
-            if (found === 0) {
+            if (totalFound === 0) {
                 context.clearRect(0, 0, ctx.width, ctx.height);
                 if (errorEl) { errorEl.classList.remove('hidden'); errorEl.textContent = 'Tidak ada customer suspend yang akan terminate bulan ini.'; }
                 return;
@@ -2135,13 +2243,19 @@
             suspendAgeChartInstance = new Chart(context, {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(buckets),
-                    datasets: [{ label: 'Jumlah Customer', data: Object.values(buckets), backgroundColor: 'rgba(245, 158, 11, 0.7)', borderColor: 'rgba(245, 158, 11, 1)', borderWidth: 1, borderRadius: 4 }]
+                    labels: bucketLabels,
+                    datasets: [{ label: 'Jumlah Customer', data: bucketLabels.map(l => customersByBucket[l].length), backgroundColor: 'rgba(245, 158, 11, 0.7)', borderColor: 'rgba(245, 158, 11, 1)', borderWidth: 1, borderRadius: 4 }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
-                    plugins: { legend: { display: false } }
+                    plugins: { legend: { display: false } },
+                    onClick: (evt, elements) => {
+                        if (elements.length > 0) {
+                            const label = bucketLabels[elements[0].index];
+                            showOverviewDetailModal(customersByBucket[label], `Customer Suspend Akan Terminate - Umur ${label}`, true);
+                        }
+                    }
                 }
             });
         }
