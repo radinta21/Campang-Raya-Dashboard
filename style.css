@@ -117,6 +117,62 @@ header h1 {
     margin: 0 auto;
 }
 
+/* --- Responsive: cegah overflow horizontal di seluruh halaman --- */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* --- Responsive: Header --- */
+@media (max-width: 480px) {
+    .header-clock {
+        display: none; /* Sembunyikan jam di layar sangat kecil agar judul tidak sempit */
+    }
+}
+
+/* --- Responsive: Metric & Insight Cards --- */
+@media (max-width: 640px) {
+    .metric-card, .bg-white.p-6 {
+        padding: 1rem !important;
+    }
+    .icon-box {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    .chart-container {
+        height: 260px !important;
+    }
+}
+
+/* --- Responsive: Grid & Chart pada tablet --- */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .chart-container {
+        height: 300px !important;
+    }
+}
+
+/* --- Responsive: Modal detail agar nyaman di HP --- */
+@media (max-width: 640px) {
+    #overviewDetailModal .table-custom th,
+    #overviewDetailModal .table-custom td,
+    #chartDetailModal .table-custom th,
+    #chartDetailModal .table-custom td {
+        font-size: 0.75rem;
+        padding: 8px 10px !important;
+    }
+}
+
+/* --- Responsive: Tabel Ranking Pelanggan Baru --- */
+@media (max-width: 640px) {
+    #newCustomerRankingTable th,
+    #newCustomerRankingTable td {
+        font-size: 0.75rem;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+}
+
 /* --- Custom Scrollbar --- */
 ::-webkit-scrollbar {
     width: 6px;
