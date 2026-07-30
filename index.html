@@ -277,7 +277,7 @@
     <aside id="sidebar" class="w-64 bg-gray-700 text-white flex flex-col p-5 shadow-lg
                              transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-50">
         <div class="flex items-center justify-center mb-6">
-            <img src="Biznet Logo.png" alt="Biznet Logo" class="h-20 w-auto">
+            <img src="Biznet_Logo.png" alt="Biznet Logo" class="h-20 w-auto">
         </div>
         <h3 class="text-xl font-semibold text-center mb-6">Dashboard Branch Bandar Lampung Campang Raya</h3>
         <nav class="flex-grow">
@@ -407,8 +407,8 @@
                         <span id="insightPeriodLabel" class="text-xs font-medium text-gray-400"></span>
                     </div>
 
-                    <!-- KPI Cards: Active, Instalasi, Net Subs, Churn Rate -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <!-- KPI Cards: Total Active & Churn Rate (overall) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                         <div class="metric-card p-6">
                             <div class="flex items-center justify-between mb-2">
                                 <h4 class="text-sm font-semibold text-gray-500">Total Customer Active</h4>
@@ -419,27 +419,103 @@
                         </div>
                         <div class="metric-card p-6">
                             <div class="flex items-center justify-between mb-2">
-                                <h4 class="text-sm font-semibold text-gray-500">Instalasi Bulan Berjalan</h4>
-                                <div class="icon-box icon-blue"><i class="fas fa-tools"></i></div>
-                            </div>
-                            <p id="kpiInstallMTD" class="text-3xl font-bold text-gray-800">0</p>
-                            <p id="kpiInstallGrowth" class="text-xs font-semibold mt-1">-</p>
-                        </div>
-                        <div class="metric-card p-6">
-                            <div class="flex items-center justify-between mb-2">
-                                <h4 class="text-sm font-semibold text-gray-500">Net Subscriber Bulan Berjalan</h4>
-                                <div class="icon-box icon-blue"><i class="fas fa-chart-line"></i></div>
-                            </div>
-                            <p id="kpiNetSubsMTD" class="text-3xl font-bold text-gray-800">0</p>
-                            <p id="kpiNetSubsGrowth" class="text-xs font-semibold mt-1">-</p>
-                        </div>
-                        <div class="metric-card p-6">
-                            <div class="flex items-center justify-between mb-2">
                                 <h4 class="text-sm font-semibold text-gray-500">Churn Rate <span class="text-gray-400">(Target 0.8%)</span></h4>
                                 <div class="icon-box icon-red"><i class="fas fa-user-slash"></i></div>
                             </div>
                             <p id="kpiChurnRate" class="text-3xl font-bold text-gray-800">0%</p>
                             <p id="kpiChurnStatus" class="text-xs font-semibold mt-1">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Segmentasi Bundle_LOB: Home, Metronet, Dedicated -->
+                    <h4 class="text-base font-bold text-gray-700 mb-3">Segmentasi Bundle (Bundle_LOB)</h4>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <!-- Segmen Home -->
+                        <div class="metric-card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="icon-box icon-blue"><i class="fas fa-home"></i></div>
+                                <h4 class="text-base font-bold text-gray-800">Segmen Home</h4>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Active Subscriber</p>
+                                    <p id="segHomeActive" class="text-xl font-bold text-gray-800">0</p>
+                                    <p id="segHomeActiveGrowth" class="text-[11px] font-semibold mt-0.5">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Instalasi Bulan Ini</p>
+                                    <p id="segHomeInstall" class="text-xl font-bold text-gray-800">0</p>
+                                    <p id="segHomeInstallGrowth" class="text-[11px] font-semibold mt-0.5">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Forecast Terminate</p>
+                                    <p id="segHomeForecastTerm" class="text-xl font-bold text-red-600">0</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Bulan berjalan</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Net Subscriber</p>
+                                    <p id="segHomeNetSubs" class="text-xl font-bold text-gray-800">0</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Bulan berjalan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Segmen Metronet -->
+                        <div class="metric-card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="icon-box icon-orange"><i class="fas fa-network-wired"></i></div>
+                                <h4 class="text-base font-bold text-gray-800">Segmen Metronet</h4>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Active Subscriber</p>
+                                    <p id="segMetronetActive" class="text-xl font-bold text-gray-800">0</p>
+                                    <p id="segMetronetActiveGrowth" class="text-[11px] font-semibold mt-0.5">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Instalasi Bulan Ini</p>
+                                    <p id="segMetronetInstall" class="text-xl font-bold text-gray-800">0</p>
+                                    <p id="segMetronetInstallGrowth" class="text-[11px] font-semibold mt-0.5">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Forecast Terminate</p>
+                                    <p id="segMetronetForecastTerm" class="text-xl font-bold text-red-600">0</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Bulan berjalan</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Net Subscriber</p>
+                                    <p id="segMetronetNetSubs" class="text-xl font-bold text-gray-800">0</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Bulan berjalan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Segmen Dedicated -->
+                        <div class="metric-card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="icon-box icon-gray"><i class="fas fa-server"></i></div>
+                                <h4 class="text-base font-bold text-gray-800">Segmen Dedicated</h4>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Active Subscriber</p>
+                                    <p id="segDedicatedActive" class="text-xl font-bold text-gray-800">0</p>
+                                    <p id="segDedicatedActiveGrowth" class="text-[11px] font-semibold mt-0.5">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Instalasi Bulan Ini</p>
+                                    <p id="segDedicatedInstall" class="text-xl font-bold text-gray-800">0</p>
+                                    <p id="segDedicatedInstallGrowth" class="text-[11px] font-semibold mt-0.5">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Forecast Terminate</p>
+                                    <p id="segDedicatedForecastTerm" class="text-xl font-bold text-red-600">0</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Bulan berjalan</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Net Subscriber</p>
+                                    <p id="segDedicatedNetSubs" class="text-xl font-bold text-gray-800">0</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Bulan berjalan</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -683,17 +759,8 @@
                             <div class="overflow-x-auto rounded-lg shadow-md">
                                 <table class="min-w-full bg-white table-custom" id="overviewDetailTable">
                                     <thead class="bg-gray-700 text-white">
-                                        <tr>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm rounded-tl-lg">Nama Lengkap</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Akun Kontrak</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Sales Code</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Mulai Kontrak</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Tgl Berakhir</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Status</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Bundle</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Subdistrict</th>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm">Status Modem</th>
-                                            <th id="overviewDetailActionHeader" class="py-3 px-4 uppercase font-semibold text-sm rounded-tr-lg hidden">Aksi</th>
+                                        <tr id="overviewDetailTableHeadRow">
+                                            <!-- Header kolom diisi otomatis lewat JS -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -712,34 +779,44 @@
 
             <section id="salesRanking" class="content-section hidden">
                 <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Ranking <span id="rankingMonthYear"></span></h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- New Customers Ranking -->
-                        <div class="ranking-card p-6">
-                            <h3 class="text-xl font-semibold text-green-700 mb-4 text-center">Pelanggan Baru</h3>
-                            <div id="newCustomersRanking" class="space-y-2">
-                                <!-- Ranking will be populated here -->
-                                <p class="text-center text-gray-500">Memuat peringkat...</p>
-                            </div>
-                        </div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1 text-center">Ranking <span id="rankingMonthYear"></span></h2>
+                    <p class="text-center text-xs text-gray-400 mb-4">Pencapaian customer baru active bulan berjalan per Area Coordinator</p>
 
-                        <!-- Suspended Customers Ranking -->
-                        <div class="ranking-card p-6">
-                            <h3 class="text-xl font-semibold text-yellow-700 mb-4 text-center">Pelanggan Suspend</h3>
-                            <div id="suspendedCustomersRanking" class="space-y-2">
-                                <!-- Ranking will be populated here -->
-                                <p class="text-center text-gray-500">Memuat peringkat...</p>
-                            </div>
-                        </div>
+                    <!-- Ranking Pelanggan Baru: tabel intuitif dengan tren, progress bar target, dan badge -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full" id="newCustomerRankingTable">
+                            <thead>
+                                <tr class="text-left text-xs uppercase text-gray-400 border-b border-gray-200">
+                                    <th class="py-2 pr-3 w-10">#</th>
+                                    <th class="py-2 pr-3">Sales Name</th>
+                                    <th class="py-2 pr-3">Tren</th>
+                                    <th class="py-2 pr-3 min-w-[220px]">% Progress (vs Target Individu)</th>
+                                    <th class="py-2 pr-3 text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newCustomerRankingBody">
+                                <tr><td colspan="5" class="text-center text-gray-500 py-4">Memuat peringkat...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                        <!-- Terminated Customers Ranking -->
-                        <div class="ranking-card p-6">
-                            <h3 class="text-xl font-semibold text-red-700 mb-4 text-center">Pelanggan Terminasi</h3>
-                            <div id="terminatedCustomersRanking" class="space-y-2">
-                                <!-- Ranking will be populated here -->
-                                <p class="text-center text-gray-500">Memuat peringkat...</p>
-                            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Suspended Customers Ranking -->
+                    <div class="ranking-card p-6">
+                        <h3 class="text-xl font-semibold text-yellow-700 mb-4 text-center">Pelanggan Suspend</h3>
+                        <div id="suspendedCustomersRanking" class="space-y-2">
+                            <!-- Ranking will be populated here -->
+                            <p class="text-center text-gray-500">Memuat peringkat...</p>
+                        </div>
+                    </div>
+
+                    <!-- Terminated Customers Ranking -->
+                    <div class="ranking-card p-6">
+                        <h3 class="text-xl font-semibold text-red-700 mb-4 text-center">Pelanggan Terminasi</h3>
+                        <div id="terminatedCustomersRanking" class="space-y-2">
+                            <!-- Ranking will be populated here -->
+                            <p class="text-center text-gray-500">Memuat peringkat...</p>
                         </div>
                     </div>
                 </div>
@@ -1941,7 +2018,7 @@
             document.getElementById('kpiTotalActive').textContent = formatNumber(totalActiveNow);
             renderGrowthLabel('kpiTotalActiveGrowth', totalActiveNow, totalActiveLastMonthSameDate, `tgl ${sameDayLastMonth.getDate()} bulan lalu`);
 
-            // ---------- 2. Instalasi Bulan Berjalan ----------
+            // ---------- 2. Instalasi Bulan Berjalan (dipakai untuk Target/Forecast & Churn Rate) ----------
             const installThisMonth = allCustomers.filter(c => {
                 const d = parseDate(c.CONTRACTSTARTDATE);
                 return d && d >= startOfThisMonth && d <= today;
@@ -1950,10 +2027,8 @@
                 const d = parseDate(c.CONTRACTSTARTDATE);
                 return d && d >= startOfLastMonth && d <= sameDayLastMonth;
             }).length;
-            document.getElementById('kpiInstallMTD').textContent = formatNumber(installThisMonth);
-            renderGrowthLabel('kpiInstallGrowth', installThisMonth, installLastMonthSamePeriod, `s/d tgl ${sameDayLastMonth.getDate()} bulan lalu`);
 
-            // ---------- 3. Net Subscriber Bulan Berjalan ----------
+            // ---------- 3. Net Subscriber Bulan Berjalan (overall, dipakai untuk Target/Forecast) ----------
             const termThisMonth = allCustomers.filter(c => {
                 const d = parseDate(c.TERMDATE);
                 return d && d >= startOfThisMonth && d <= today;
@@ -1964,8 +2039,6 @@
             }).length;
             const netSubsThisMonth = installThisMonth - termThisMonth;
             const netSubsLastMonthSamePeriod = installLastMonthSamePeriod - termLastMonthSamePeriod;
-            document.getElementById('kpiNetSubsMTD').textContent = formatNumber(netSubsThisMonth);
-            renderGrowthLabel('kpiNetSubsGrowth', netSubsThisMonth, netSubsLastMonthSamePeriod, `s/d tgl ${sameDayLastMonth.getDate()} bulan lalu`);
 
             // ---------- 4. Target vs Aktual Net Subs (progress bar) ----------
             const target = 100;
@@ -2003,6 +2076,11 @@
                 }
             }
 
+            // ---------- Segmentasi Bundle_LOB: Home, Metronet, Dedicated ----------
+            renderSegmentInsight('HOME', 'segHome', startOfThisMonth, startOfLastMonth, sameDayLastMonth, today);
+            renderSegmentInsight('METRONET', 'segMetronet', startOfThisMonth, startOfLastMonth, sameDayLastMonth, today);
+            renderSegmentInsight('DEDICATED', 'segDedicated', startOfThisMonth, startOfLastMonth, sameDayLastMonth, today);
+
             // ---------- 6-10 & 12: Chart-chart tambahan ----------
             renderArcoPerformanceChart(startOfThisMonth, startOfLastMonth, daysInCurrentMonth, daysInLastMonth, today);
             renderTerminationBySalesChart(startOfThisMonth, today);
@@ -2010,6 +2088,46 @@
             renderModemStatusTerminateChart(startOfThisMonth, today);
             renderSubdistrictInstallChart(startOfThisMonth, today);
             renderPenetrationChart();
+        }
+
+        // Menghitung & menampilkan insight per segmen Bundle_LOB (Home / Metronet / Dedicated)
+        function renderSegmentInsight(bundleKeyword, idPrefix, startOfThisMonth, startOfLastMonth, sameDayLastMonth, today) {
+            const inSegment = c => c.BUNDLE_LOB && c.BUNDLE_LOB.toUpperCase().includes(bundleKeyword);
+
+            // Active Subscriber (Active + Suspend) segmen ini, hari ini vs tanggal sama bulan lalu (rekonstruksi historis)
+            const activeNow = allCustomers.filter(c => inSegment(c) && c.STATUS && ['ACTIVE', 'SUSPENDED'].includes(c.STATUS.toUpperCase())).length;
+            const activeLastMonthSameDate = allCustomers.filter(c => inSegment(c) && isActiveAsOf(c, sameDayLastMonth)).length;
+
+            // Instalasi bulan berjalan segmen ini vs periode sama bulan lalu
+            const installThisMonthSeg = allCustomers.filter(c => {
+                if (!inSegment(c)) return false;
+                const d = parseDate(c.CONTRACTSTARTDATE);
+                return d && d >= startOfThisMonth && d <= today;
+            }).length;
+            const installLastMonthSeg = allCustomers.filter(c => {
+                if (!inSegment(c)) return false;
+                const d = parseDate(c.CONTRACTSTARTDATE);
+                return d && d >= startOfLastMonth && d <= sameDayLastMonth;
+            }).length;
+
+            // Forecast jumlah customer yang akan terminate bulan berjalan (TERMDATE bulan ini, segmen ini)
+            const endOfThisMonth = new Date(startOfThisMonth.getFullYear(), startOfThisMonth.getMonth() + 1, 0);
+            endOfThisMonth.setHours(23, 59, 59, 999);
+            const forecastTerminateSeg = allCustomers.filter(c => {
+                if (!inSegment(c)) return false;
+                const d = parseDate(c.TERMDATE);
+                return d && d >= startOfThisMonth && d <= endOfThisMonth;
+            }).length;
+
+            const netSubsSeg = installThisMonthSeg - forecastTerminateSeg;
+
+            const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            setText(`${idPrefix}Active`, formatNumber(activeNow));
+            renderGrowthLabel(`${idPrefix}ActiveGrowth`, activeNow, activeLastMonthSameDate, `tgl ${sameDayLastMonth.getDate()} bulan lalu`);
+            setText(`${idPrefix}Install`, formatNumber(installThisMonthSeg));
+            renderGrowthLabel(`${idPrefix}InstallGrowth`, installThisMonthSeg, installLastMonthSeg, `s/d tgl ${sameDayLastMonth.getDate()} bulan lalu`);
+            setText(`${idPrefix}ForecastTerm`, formatNumber(forecastTerminateSeg));
+            setText(`${idPrefix}NetSubs`, formatNumber(netSubsSeg));
         }
 
         // 6. Pencapaian instalasi harian per Area Coordinator (Sales Code): bulan ini vs bulan lalu (transparan)
@@ -2106,48 +2224,82 @@
             return digits;
         }
 
+        // Template pesan WhatsApp otomatis (dipakai di semua drill-down: Terminasi per Sales Code,
+        // Umur Customer Suspend, dan Forecast Terminasi)
+        function buildWhatsAppLink(customer) {
+            const waNumber = formatWhatsAppNumber(customer.BILLING_PHONE);
+            if (!waNumber) return null;
+            const name = customer.BP_FULLNAME || 'Kak';
+            const message = `Halo Kak ${name},\nTerimakasih telah menjadi pelanggan setia #Biznet,\nDibantu untuk konfirmasinya kak, Wifi dirumahnya sudah tidak aktif, apakah ada kendala kak? Jika ada kendala kami siap membantu!\nJangan lupa untuk melakukan pembayaran, karena masa aktif akan langsung bertambah serta tidak ada denda ya kak\nTerimakasih, salam hangat dari Biznet Branch Campang Raya`;
+            return `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+        }
+
+        function waActionCellHtml(customer) {
+            const link = buildWhatsAppLink(customer);
+            if (link) {
+                return `<a href="${link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-500 hover:text-white transition-colors" title="Chat WhatsApp"><i class="fab fa-whatsapp"></i></a>`;
+            }
+            return `<span class="text-gray-300" title="Nomor tidak tersedia"><i class="fab fa-whatsapp"></i></span>`;
+        }
+
+        // Set kolom default untuk modal detail (Terminasi per Sales Code & Forecast Terminasi)
+        const DEFAULT_DETAIL_COLUMNS = [
+            { label: 'Nama Lengkap', get: c => c.BP_FULLNAME || '-' },
+            { label: 'Akun Kontrak', get: c => c.CONTRACTACCOUNT || '-' },
+            { label: 'Sales Code', get: c => salesCodeNames[c.SALESCODE] ? `${salesCodeNames[c.SALESCODE]} (${c.SALESCODE})` : (c.SALESCODE || '-') },
+            { label: 'Mulai Kontrak', get: c => c.CONTRACTSTARTDATE || '-' },
+            { label: 'Tgl Berakhir', get: c => c.TERMDATE || '-' },
+            { label: 'Status', get: c => c.STATUS || '-' },
+            { label: 'Bundle', get: c => c.BUNDLE_NAME || '-' },
+            { label: 'Subdistrict', get: c => c.SUBDISTRICT_INST || '-' },
+            { label: 'Status Modem', get: c => c.MODEM_STATUS || '-' }
+        ];
+
+        // Set kolom khusus untuk modal "Umur Customer Suspend yang Akan Terminate"
+        const SUSPEND_AGE_DETAIL_COLUMNS = [
+            { label: 'Nama Lengkap', get: c => c.BP_FULLNAME || '-' },
+            { label: 'Akun Kontrak', get: c => c.CONTRACTACCOUNT || '-' },
+            { label: 'Sales Code', get: c => salesCodeNames[c.SALESCODE] ? `${salesCodeNames[c.SALESCODE]} (${c.SALESCODE})` : (c.SALESCODE || '-') },
+            { label: 'Tgl Berakhir', get: c => c.TERMDATE || '-' },
+            { label: 'Subdistrict', get: c => c.SUBDISTRICT_INST || '-' },
+            { label: 'Status Modem', get: c => c.MODEM_STATUS || '-' },
+            { label: 'Promo Code', get: c => c.PROMO_CODE || '-' }
+        ];
+
         // Menampilkan modal detail customer (dipakai oleh chart Terminasi per Sales Code & Umur Customer Suspend)
-        function showOverviewDetailModal(customers, modalTitle, showWhatsApp) {
+        function showOverviewDetailModal(customers, modalTitle, showWhatsApp, columns) {
+            columns = columns || DEFAULT_DETAIL_COLUMNS;
+            const headRow = document.getElementById('overviewDetailTableHeadRow');
             const modalBodyTable = document.querySelector('#overviewDetailModal #overviewDetailTable tbody');
-            const actionHeader = document.getElementById('overviewDetailActionHeader');
             const hintEl = document.getElementById('overviewDetailModalHint');
-            if (!modalBodyTable) return;
+            if (!modalBodyTable || !headRow) return;
+
+            // Bangun header tabel secara dinamis sesuai kolom yang diberikan
+            let headHtml = columns.map((col, i) => {
+                const roundClass = i === 0 ? 'rounded-tl-lg' : '';
+                return `<th class="py-3 px-4 uppercase font-semibold text-sm ${roundClass}">${col.label}</th>`;
+            }).join('');
+            if (showWhatsApp) {
+                headHtml += `<th class="py-3 px-4 uppercase font-semibold text-sm rounded-tr-lg">Aksi</th>`;
+            } else if (columns.length > 0) {
+                // beri sudut kanan atas membulat pada kolom terakhir jika tidak ada kolom Aksi
+                headHtml = headHtml.replace(/<th class="py-3 px-4 uppercase font-semibold text-sm ">([^<]*)<\/th>$/, '<th class="py-3 px-4 uppercase font-semibold text-sm rounded-tr-lg">$1</th>');
+            }
+            headRow.innerHTML = headHtml;
+
+            hintEl.classList.toggle('hidden', !showWhatsApp);
             modalBodyTable.innerHTML = '';
 
-            if (showWhatsApp) {
-                actionHeader.classList.remove('hidden');
-                hintEl.classList.remove('hidden');
-            } else {
-                actionHeader.classList.add('hidden');
-                hintEl.classList.add('hidden');
-            }
-
             if (!customers || customers.length === 0) {
-                modalBodyTable.innerHTML = `<tr><td colspan="10" class="text-center py-4">Tidak ada customer untuk kriteria ini.</td></tr>`;
+                const colspan = columns.length + (showWhatsApp ? 1 : 0);
+                modalBodyTable.innerHTML = `<tr><td colspan="${colspan}" class="text-center py-4">Tidak ada customer untuk kriteria ini.</td></tr>`;
             } else {
                 customers.forEach(customer => {
                     const row = modalBodyTable.insertRow();
-                    row.insertCell().textContent = customer.BP_FULLNAME || '-';
-                    row.insertCell().textContent = customer.CONTRACTACCOUNT || '-';
-                    row.insertCell().textContent = salesCodeNames[customer.SALESCODE] ? `${salesCodeNames[customer.SALESCODE]} (${customer.SALESCODE})` : (customer.SALESCODE || '-');
-                    row.insertCell().textContent = customer.CONTRACTSTARTDATE || '-';
-                    row.insertCell().textContent = customer.TERMDATE || '-';
-                    row.insertCell().textContent = customer.STATUS || '-';
-                    row.insertCell().textContent = customer.BUNDLE_NAME || '-';
-                    row.insertCell().textContent = customer.SUBDISTRICT_INST || '-';
-                    row.insertCell().textContent = customer.MODEM_STATUS || '-';
-
+                    columns.forEach(col => { row.insertCell().textContent = col.get(customer); });
                     if (showWhatsApp) {
-                        const actionCell = row.insertCell();
-                        const waNumber = formatWhatsAppNumber(customer.BILLING_PHONE);
-                        if (waNumber) {
-                            const waMessage = encodeURIComponent(`Halo ${customer.BP_FULLNAME || ''}, kami dari Biznet ingin menginformasikan mengenai status layanan Anda yang akan berakhir pada ${customer.TERMDATE || '-'}. Mohon informasinya, terima kasih.`);
-                            actionCell.innerHTML = `<a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-500 hover:text-white transition-colors" title="Chat WhatsApp"><i class="fab fa-whatsapp"></i></a>`;
-                        } else {
-                            actionCell.innerHTML = `<span class="text-gray-300" title="Nomor tidak tersedia"><i class="fab fa-whatsapp"></i></span>`;
-                        }
+                        row.insertCell().innerHTML = waActionCellHtml(customer);
                     }
-
                     row.classList.add('hover:bg-gray-50');
                     row.querySelectorAll('td').forEach(cell => cell.classList.add('py-2', 'px-4', 'text-sm', 'text-gray-700', 'whitespace-nowrap'));
                 });
@@ -2198,7 +2350,7 @@
                     onClick: (evt, elements) => {
                         if (elements.length > 0) {
                             const code = sortedCodes[elements[0].index];
-                            showOverviewDetailModal(customersByCode[code], `Terminasi Bulan Ini - ${labels[elements[0].index]}`, false);
+                            showOverviewDetailModal(customersByCode[code], `Terminasi Bulan Ini - ${labels[elements[0].index]}`, true);
                         }
                     }
                 }
@@ -2247,13 +2399,14 @@
                     datasets: [{ label: 'Jumlah Customer', data: bucketLabels.map(l => customersByBucket[l].length), backgroundColor: 'rgba(245, 158, 11, 0.7)', borderColor: 'rgba(245, 158, 11, 1)', borderWidth: 1, borderRadius: 4 }]
                 },
                 options: {
+                    indexAxis: 'y',
                     responsive: true, maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+                    scales: { x: { beginAtZero: true, ticks: { precision: 0 } } },
                     plugins: { legend: { display: false } },
                     onClick: (evt, elements) => {
                         if (elements.length > 0) {
                             const label = bucketLabels[elements[0].index];
-                            showOverviewDetailModal(customersByBucket[label], `Customer Suspend Akan Terminate - Umur ${label}`, true);
+                            showOverviewDetailModal(customersByBucket[label], `Customer Suspend Akan Terminate - Umur ${label}`, true, SUSPEND_AGE_DETAIL_COLUMNS);
                         }
                     }
                 }
@@ -3508,11 +3661,27 @@
                     row.insertCell().textContent = customer.TERMDATE || '-';
                     
                     const actionCell = row.insertCell();
+                    actionCell.classList.add('space-x-2', 'whitespace-nowrap');
                     const vaButton = document.createElement('button');
                     vaButton.classList.add('px-3', 'py-1', 'bg-blue-500', 'text-white', 'rounded-md', 'hover:bg-blue-600', 'text-sm');
                     vaButton.textContent = 'Lihat VA';
                     vaButton.onclick = () => showVaDetail(customer);
                     actionCell.appendChild(vaButton);
+
+                    const waLink = buildWhatsAppLink(customer);
+                    const waAnchor = document.createElement('a');
+                    waAnchor.target = '_blank';
+                    waAnchor.rel = 'noopener noreferrer';
+                    waAnchor.title = 'Chat WhatsApp';
+                    waAnchor.className = 'inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-500 hover:text-white transition-colors';
+                    waAnchor.innerHTML = '<i class="fab fa-whatsapp"></i>';
+                    if (waLink) {
+                        waAnchor.href = waLink;
+                    } else {
+                        waAnchor.classList.add('opacity-40', 'pointer-events-none');
+                        waAnchor.title = 'Nomor tidak tersedia';
+                    }
+                    actionCell.appendChild(waAnchor);
                     
                     row.classList.add('hover:bg-gray-50');
                     row.querySelectorAll('td').forEach(cell => cell.classList.add('py-2', 'px-4', 'text-sm', 'text-gray-700', 'whitespace-nowrap'));
@@ -3529,13 +3698,16 @@
         }
 
         // --- FUNGSI SALES RANKING ---
+        // Target individu new-install per bulan untuk masing-masing Sales Code (Area Coordinator).
+        // Silakan sesuaikan angkanya per ARCO; default dipakai jika kode belum diatur di sini.
+        const individualSalesTargets = {};
+        const DEFAULT_INDIVIDUAL_SALES_TARGET = 30;
+
         function renderSalesRanking() {
-            const newCustomersRankingDiv = document.getElementById('newCustomersRanking');
             const suspendedCustomersRankingDiv = document.getElementById('suspendedCustomersRanking');
             const terminatedCustomersRankingDiv = document.getElementById('terminatedCustomersRanking');
             const rankingMonthYearSpan = document.getElementById('rankingMonthYear'); // Changed ID
 
-            newCustomersRankingDiv.innerHTML = '<p class="text-center text-gray-500">Memuat peringkat...</p>';
             suspendedCustomersRankingDiv.innerHTML = '<p class="text-center text-gray-500">Memuat peringkat...</p>';
             terminatedCustomersRankingDiv.innerHTML = '<p class="text-center text-gray-500">Memuat peringkat...</p>';
 
@@ -3543,11 +3715,15 @@
             const currentYear = now.getFullYear();
             const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0'); // '06' for June
             const currentMonthYear = `${currentYear}-${currentMonth}`;
+
+            const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+            const prevMonthYear = `${prevMonthDate.getFullYear()}-${(prevMonthDate.getMonth() + 1).toString().padStart(2, '0')}`;
             
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
             rankingMonthYearSpan.textContent = `${monthNames[now.getMonth()]} ${currentYear}`; // Updated text
 
             const salesStats = {};
+            const salesStatsPrevMonth = {}; // { salescode: newCountBulanLalu }
 
             allCustomers.forEach(customer => {
                 const salesCode = customer.SALESCODE;
@@ -3563,6 +3739,8 @@
                     const customerMonthYear = `${contractDate.getFullYear()}-${(contractDate.getMonth() + 1).toString().padStart(2, '0')}`;
                     if (customerMonthYear === currentMonthYear) {
                         salesStats[salesCode].New++;
+                    } else if (customerMonthYear === prevMonthYear) {
+                        salesStatsPrevMonth[salesCode] = (salesStatsPrevMonth[salesCode] || 0) + 1;
                     }
                 } 
                 
@@ -3585,11 +3763,7 @@
                 }
             });
 
-            // Sort and display rankings
-            const sortedSalesNew = Object.entries(salesStats)
-                .sort(([, a], [, b]) => b.New - a.New) // Tertinggi ke Terendah (jumlah baru terbanyak = terbaik)
-                .slice(0, 3);
-            displayRanking(newCustomersRankingDiv, sortedSalesNew, 'New', 'sales-new-count');
+            renderNewCustomerRankingTable(salesStats, salesStatsPrevMonth);
 
             const sortedSalesSuspended = Object.entries(salesStats)
                 .sort(([, a], [, b]) => a.Suspended - b.Suspended) // Terendah ke Tertinggi (jumlah suspend tersedikit = terbaik)
@@ -3600,6 +3774,88 @@
                 .sort(([, a], [, b]) => a.Terminated - b.Terminated) // Terendah ke Tertinggi (jumlah terminated tersedikit = terbaik)
                 .slice(0, 3);
             displayRanking(terminatedCustomersRankingDiv, sortedSalesTerminated, 'Terminated', 'sales-terminated-count');
+        }
+
+        // Tabel Ranking Pelanggan Baru: tren peringkat vs bulan lalu, progress bar target individu, badge & hint kejar-kejaran
+        function renderNewCustomerRankingTable(salesStats, salesStatsPrevMonth) {
+            const tbody = document.getElementById('newCustomerRankingBody');
+            if (!tbody) return;
+
+            // Ranking bulan berjalan (hanya sales code dengan New > 0)
+            const currentRanking = Object.entries(salesStats)
+                .filter(([, stats]) => stats.New > 0)
+                .sort(([, a], [, b]) => b.New - a.New);
+
+            if (currentRanking.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500 py-4">Belum ada customer baru active bulan ini.</td></tr>';
+                return;
+            }
+
+            // Ranking bulan lalu (untuk membandingkan posisi/tren)
+            const prevRanking = Object.entries(salesStatsPrevMonth)
+                .sort(([, a], [, b]) => b - a);
+            const prevRankMap = {};
+            prevRanking.forEach(([code], idx) => { prevRankMap[code] = idx + 1; });
+
+            tbody.innerHTML = '';
+            currentRanking.forEach(([salesCode, stats], index) => {
+                const rank = index + 1;
+                const salesName = salesCodeNames[salesCode] || salesCode;
+                const total = stats.New;
+                const target = individualSalesTargets[salesCode] || DEFAULT_INDIVIDUAL_SALES_TARGET;
+                const progressPct = target > 0 ? (total / target) * 100 : 0;
+                const barWidth = Math.min(100, progressPct);
+                const barColor = progressPct >= 100 ? '#16A34A' : (progressPct >= 60 ? '#2563EB' : '#F59E0B');
+
+                // Tren: bandingkan posisi ranking sekarang vs bulan lalu
+                const prevRank = prevRankMap[salesCode];
+                let trendHtml = '<span class="text-gray-400" title="Belum ada data bulan lalu"><i class="fas fa-minus"></i> Baru</span>';
+                if (prevRank !== undefined) {
+                    if (prevRank > rank) trendHtml = '<span class="text-green-600" title="Naik peringkat"><i class="fas fa-arrow-up"></i> Naik</span>';
+                    else if (prevRank < rank) trendHtml = '<span class="text-red-600" title="Turun peringkat"><i class="fas fa-arrow-down"></i> Turun</span>';
+                    else trendHtml = '<span class="text-gray-500" title="Peringkat tetap"><i class="fas fa-equals"></i> Tetap</span>';
+                }
+                const isHotStreak = prevRank !== undefined && prevRank > rank;
+
+                // Badge nomor urut + trofi untuk juara 1
+                let rankBadge = `<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-100 text-gray-700 font-bold text-sm">${rank}</span>`;
+                let trophy = '';
+                if (rank === 1) trophy = '<span class="ml-1" title="Peringkat 1">🏆</span>';
+
+                // Hint kejar-kejaran vs peringkat di atasnya
+                let catchUpHint = '';
+                if (rank > 1) {
+                    const aboveTotal = currentRanking[index - 1][1].New;
+                    const aboveName = salesCodeNames[currentRanking[index - 1][0]] || currentRanking[index - 1][0];
+                    const gap = aboveTotal - total + 1;
+                    if (gap > 0) {
+                        catchUpHint = `<div class="text-[11px] text-gray-400 mt-1">Hanya butuh <strong class="text-gray-600">+${gap}</strong> untuk menyalip ${aboveName}</div>`;
+                    }
+                }
+
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-100 hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 pr-3 align-top">${rankBadge}</td>
+                    <td class="py-3 pr-3 align-top">
+                        <div class="font-semibold text-gray-800">${salesName}${trophy}</div>
+                        ${isHotStreak ? '<div class="text-[11px] text-orange-500 font-semibold mt-0.5">🔥 Hot Streak!</div>' : ''}
+                        ${catchUpHint}
+                    </td>
+                    <td class="py-3 pr-3 align-top text-sm">${trendHtml}</td>
+                    <td class="py-3 pr-3 align-top">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden min-w-[100px]">
+                                <div class="h-4 rounded-full transition-all duration-500" style="width:${barWidth}%; background-color:${barColor};"></div>
+                            </div>
+                            <span class="text-xs font-semibold text-gray-600 w-12 text-right">${progressPct.toFixed(0)}%</span>
+                        </div>
+                        <div class="text-[11px] text-gray-400 mt-0.5">Target: ${target}</div>
+                    </td>
+                    <td class="py-3 pr-3 align-top text-right font-bold text-gray-800">${total}</td>
+                `;
+                tbody.appendChild(row);
+            });
         }
 
         function displayRanking(element, rankingData, type, countClass) {
