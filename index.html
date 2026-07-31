@@ -256,11 +256,24 @@
             border-radius: 9999px; /* Fully rounded */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            display: none; /* Hidden by default, shown by JS/media query */
+            display: none; /* Dikendalikan langsung lewat inline style oleh JS */
+            align-items: center;
+            border: none;
+            cursor: pointer;
         }
         #openSidebarBtn:hover {
             background-color: #0056b3;
             transform: translateY(-2px);
+        }
+
+        /* Sidebar collapse/expand yang berfungsi di semua ukuran layar (desktop maupun mobile).
+           Class ini sengaja memakai !important agar mengalahkan utility responsive Tailwind
+           sehingga sidebar tetap bisa disembunyikan walau di layar besar. */
+        #sidebar.sidebar-collapsed {
+            transform: translateX(-100%) !important;
+        }
+        #content.content-full {
+            margin-left: 0 !important;
         }
     </style>
     <!-- Font Awesome for icons -->
@@ -275,9 +288,9 @@
 <body class="bg-gray-100 min-h-screen flex">
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-gray-700 text-white flex flex-col p-5 shadow-lg
-                             transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-50">
+                             transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-50">
         <div class="flex items-center justify-center mb-6">
-            <img src="Biznet Logo.png" alt="Biznet Logo" class="h-20 w-auto">
+            <img src="Biznet_Logo.png" alt="Biznet Logo" class="h-20 w-auto">
         </div>
         <h3 class="text-xl font-semibold text-center mb-6">Dashboard Branch Bandar Lampung Campang Raya</h3>
         <nav class="flex-grow">
@@ -314,11 +327,6 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" onclick="showSection('netSubsAnalysis')" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-gray-600 hover:text-white transition-colors duration-200">
-                                Analisis Net Subs
-                            </a>
-                        </li>
-                        <li>
                             <a href="#" onclick="showSection('dailyNewSubscribersAnalysis')" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-gray-600 hover:text-white transition-colors duration-200">
                                 Daily New Subscribers
                             </a>
@@ -339,8 +347,8 @@
         </nav>
     </aside>
 
-    <!-- Floating button to open sidebar on mobile -->
-    <button id="openSidebarBtn" class="md:hidden" onclick="toggleSidebar()">
+    <!-- Floating button to open sidebar (muncul di semua ukuran layar saat sidebar disembunyikan) -->
+    <button id="openSidebarBtn" onclick="toggleSidebar()">
         <i class="fas fa-bars mr-2"></i> Buka Menu
     </button>
 
@@ -350,10 +358,10 @@
     <!-- Main Content Area -->
     <div id="content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out md:ml-64">
         <header class="bg-white shadow p-3 sm:p-4 flex items-center justify-between gap-2">
-            <button id="sidebarToggle" class="text-gray-600 focus:outline-none md:hidden flex-shrink-0" onclick="toggleSidebar()">
+            <button id="sidebarToggle" class="text-gray-600 focus:outline-none flex-shrink-0" onclick="toggleSidebar()" title="Tampilkan/Sembunyikan menu">
                 <i class="fas fa-bars text-xl"></i>
             </button>
-            <h1 class="text-sm sm:text-lg md:text-xl font-semibold text-gray-800 text-center flex-1 min-w-0 leading-snug">Biznet Bandar Lampung Campang Raya</h1>
+            <h1 class="text-sm sm:text-lg md:text-xl font-semibold text-gray-800 text-center flex-1 min-w-0 leading-snug">Dashboard Data Customer Biznet Bandar Lampung Campang Raya</h1>
             <div id="realTimeClock" class="header-clock text-gray-600 text-xs sm:text-sm font-medium ml-2 sm:ml-4 flex-shrink-0 whitespace-nowrap"></div>
         </header>
 
@@ -534,14 +542,6 @@
                         </div>
                     </div>
 
-                    <!-- Chart for Status Distribution -->
-                    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Distribusi Status Customer</h3>
-                        <div class="chart-container h-72"> <!-- Tinggi lebih pendek untuk dashboard chart -->
-                            <canvas id="dashboardStatusChart"></canvas>
-                        </div>
-                    </div>
-
                     <!-- Pencapaian Area Coordinator (Harian, bulan ini vs bulan lalu) -->
                     <div class="bg-white p-6 rounded-lg shadow-md mb-8">
                         <h3 class="text-xl font-bold text-gray-800 mb-1 text-center">Pencapaian Instalasi Harian per Area Coordinator</h3>
@@ -562,7 +562,7 @@
                             <p id="terminationBySalesError" class="text-center text-red-500 text-sm mt-2 hidden"></p>
                         </div>
                         <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Umur Customer Suspend yang Akan Terminate Bulan Ini</h3>
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Umur Customer Terminate Bulan Ini</h3>
                             <div class="chart-container h-72">
                                 <canvas id="suspendAgeChart"></canvas>
                             </div>
@@ -800,26 +800,6 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Suspended Customers Ranking -->
-                    <div class="ranking-card p-6">
-                        <h3 class="text-xl font-semibold text-yellow-700 mb-4 text-center">Pelanggan Suspend</h3>
-                        <div id="suspendedCustomersRanking" class="space-y-2">
-                            <!-- Ranking will be populated here -->
-                            <p class="text-center text-gray-500">Memuat peringkat...</p>
-                        </div>
-                    </div>
-
-                    <!-- Terminated Customers Ranking -->
-                    <div class="ranking-card p-6">
-                        <h3 class="text-xl font-semibold text-red-700 mb-4 text-center">Pelanggan Terminasi</h3>
-                        <div id="terminatedCustomersRanking" class="space-y-2">
-                            <!-- Ranking will be populated here -->
-                            <p class="text-center text-gray-500">Memuat peringkat...</p>
-                        </div>
-                    </div>
-                </div>
             </section>
 
             <section id="customerStatusAnalysis" class="content-section hidden">
@@ -882,46 +862,6 @@
                 </div>
             </section>
             
-            <section id="netSubsAnalysis" class="content-section hidden">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Analisis Net Subscribers per Bulan (Customer Baru, Suspend & Terminated)</h3>
-                    <div class="mb-4">
-                        <label for="salesCodeNetSubsFilter" class="block text-gray-700 text-sm font-bold mb-2">Pilih Sales Code:</label>
-                        <select id="salesCodeNetSubsFilter" class="shadow-sm border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent">
-                            <option value="">Semua Sales Code</option>
-                            <!-- Sales Code options will be loaded dynamically -->
-                        </select>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="netSubsChart"></canvas>
-                    </div>
-                    <div class="overflow-x-auto rounded-lg shadow-md mt-6">
-                        <h4 class="text-lg font-bold text-gray-800 mb-3 text-center">Detail Customer Net Subs</h4>
-                        <table class="min-w-full bg-white table-custom" id="netSubsDetailTable">
-                            <thead class="bg-gray-700 text-white">
-                                <tr>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm rounded-tl-lg">BP_FULLNAME</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">CONTRACTACCOUNT</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">SALESCODE</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">STATUS</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">CONTRACTSTARTDATE</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">EXPIREDDATE</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">TERMDATE</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">BP_PHONE</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">BP_EMAIL</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm rounded-tr-lg">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Customer details for Net Subs will be loaded here -->
-                            </tbody>
-                        </table>
-                        <p id="netSubsDetailTableMessage" class="text-center text-gray-600 p-4 hidden"></p>
-                    </div>
-                    <div id="netSubsChartError" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mt-4 hidden"></div>
-                </div>
-            </section>
-
             <section id="dailyNewSubscribersAnalysis" class="content-section hidden">
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Daily New Subscribers (MoM)</h3>
@@ -1086,7 +1026,6 @@
         let kecamatanChartInstance = null;
         let bundleNameChartInstance = null;
         let modemStatusChartInstance = null;
-        let netSubsChartInstance = null; // Net Subs Chart
         let dailyNewSubsChartInstance = null; // New: Daily New Subscribers Chart
         let forecastTerminationChartInstance = null; // New chart for forecast termination
         let arcoPerformanceChartInstance = null;
@@ -1137,38 +1076,39 @@
             document.getElementById('realTimeClock').textContent = now.toLocaleDateString('id-ID', options);
         }
 
-        // Fungsi untuk toggle sidebar
-        function toggleSidebar() {
+        // Fungsi terpusat untuk mengatur status sidebar (terbuka/tertutup) di semua ukuran layar
+        function setSidebarOpen(isOpen) {
             const sidebar = document.getElementById('sidebar');
             const openSidebarBtn = document.getElementById('openSidebarBtn');
             const overlay = document.getElementById('sidebarOverlay');
+            const content = document.getElementById('content');
+            const isMobile = window.innerWidth <= 768;
 
-            sidebar.classList.toggle('-translate-x-full');
-            // Toggle visibility of the overlay and floating button based on sidebar state
-            if (sidebar.classList.contains('-translate-x-full')) {
-                overlay.classList.add('hidden'); // Hide overlay when sidebar is closed
-                // Show floating button only on mobile when sidebar is closed
-                if (window.innerWidth <= 768) {
-                     openSidebarBtn.classList.remove('hidden');
-                }
+            if (isOpen) {
+                sidebar.classList.remove('sidebar-collapsed');
+                content.classList.remove('content-full');
+                openSidebarBtn.style.display = 'none';
+                overlay.classList.toggle('hidden', !isMobile); // overlay gelap hanya relevan di mobile
             } else {
-                overlay.classList.remove('hidden'); // Show overlay when sidebar is open
-                openSidebarBtn.classList.add('hidden'); // Hide floating button when sidebar is open
+                sidebar.classList.add('sidebar-collapsed');
+                content.classList.add('content-full');
+                overlay.classList.add('hidden');
+                openSidebarBtn.style.display = 'flex';
             }
         }
 
-        // Fungsi untuk menutup sidebar (dipanggil dari overlay)
+        function isSidebarOpen() {
+            return !document.getElementById('sidebar').classList.contains('sidebar-collapsed');
+        }
+
+        // Fungsi untuk toggle sidebar (berfungsi di desktop maupun mobile)
+        function toggleSidebar() {
+            setSidebarOpen(!isSidebarOpen());
+        }
+
+        // Fungsi untuk menutup sidebar (dipanggil dari overlay saat mobile)
         function closeSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const openSidebarBtn = document.getElementById('openSidebarBtn');
-            const overlay = document.getElementById('sidebarOverlay');
-            
-            sidebar.classList.add('-translate-x-full');
-            overlay.classList.add('hidden');
-            // Show floating button only on mobile after closing sidebar
-            if (window.innerWidth <= 768) {
-                openSidebarBtn.classList.remove('hidden');
-            }
+            setSidebarOpen(false);
         }
 
 
@@ -1226,10 +1166,6 @@
             if (sectionId === 'kecamatanAnalysis') renderKecamatanChart();
             if (sectionId === 'bundleNameAnalysis') renderBundleNameChart();
             if (sectionId === 'modemStatusAnalysis') renderModemStatusChart();
-            if (sectionId === 'netSubsAnalysis') {
-                renderNetSubsChart(); // Panggil grafik Net Subs
-                updateNetSubsDetailTable([]); // Kosongkan tabel saat memuat bagian
-            }
             if (sectionId === 'salesRanking') renderSalesRanking(); // Render sales ranking
             if (sectionId === 'dailyNewSubscribersAnalysis') { // New section for daily new subscribers
                 // Initialize month and year filter for daily new subscribers
@@ -1266,7 +1202,7 @@
             
             // Untuk mobile, tutup sidebar saat bagian dipilih
             if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.add('-translate-x-full');
+                setSidebarOpen(false);
             }
         }
 
@@ -1315,9 +1251,9 @@
         async function fetchCustomerData() {
             document.getElementById('loading').classList.remove('hidden');
             document.getElementById('customerOverview').classList.add('hidden'); 
-            document.getElementById('sidebar').classList.add('-translate-x-full'); 
-            document.getElementById('analysisSubmenu').classList.add('hidden'); 
-            document.getElementById('openSidebarBtn').classList.add('hidden'); // Hide floating button during load
+            document.getElementById('analysisSubmenu').classList.add('hidden');
+            // Sidebar terbuka secara default di desktop, tertutup di mobile saat memuat data
+            setSidebarOpen(window.innerWidth > 768);
 
             try {
                 const response = await fetch(customerWebAppUrl);
@@ -1364,8 +1300,6 @@
                 document.getElementById('bundleNameError').textContent = `Error: ${error.message}`;
                 document.getElementById('modemStatusError').classList.remove('hidden');
                 document.getElementById('modemStatusError').textContent = `Error: ${error.message}`;
-                document.getElementById('netSubsChartError').classList.remove('hidden');
-                document.getElementById('netSubsChartError').textContent = `Error: ${error.message}`;
                 document.getElementById('dailyNewSubsChartError').classList.remove('hidden'); // New error display
                 document.getElementById('dailyNewSubsChartError').textContent = `Error: ${error.message}`;
                 document.getElementById('forecastTerminationChartError').classList.remove('hidden');
@@ -1377,10 +1311,6 @@
             } finally {
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('customerOverview').classList.remove('hidden'); 
-                 // Show floating button if sidebar is initially closed on mobile
-                if (window.innerWidth <= 768 && document.getElementById('sidebar').classList.contains('-translate-x-full')) {
-                    document.getElementById('openSidebarBtn').classList.remove('hidden');
-                }
             }
         }
 
@@ -1725,8 +1655,7 @@
         function populateSalesCodeFilter() {
             const salesCodeSelects = [
                 document.getElementById('filterSalesCode'),
-                document.getElementById('salesCodeKecamatanFilter'),
-                document.getElementById('salesCodeNetSubsFilter')
+                document.getElementById('salesCodeKecamatanFilter')
             ];
 
             const uniqueSalesCodes = new Set();
@@ -1838,14 +1767,6 @@
 
         // Fungsi baru untuk memperbarui ringkasan dashboard dan chart status
         function updateDashboardSummaryAndChart() {
-            const ctx = document.getElementById('dashboardStatusChart');
-            if (!ctx) return;
-            const context = ctx.getContext('2d');
-
-            if (dashboardStatusChartInstance) {
-                dashboardStatusChartInstance.destroy();
-            }
-
             let activeCount = 0;
             let suspendedCount = 0;
             let terminatedCount = 0;
@@ -1874,87 +1795,6 @@
 
             // Render semua insight tambahan (KPI, target, forecast, dan chart-chart baru)
             renderOverviewInsights();
-
-
-            const labels = ['Active', 'Suspend', 'Terminated'];
-            const data = [activeCount, suspendedCount, terminatedCount];
-            const backgroundColors = [
-                'rgba(59, 130, 246, 0.7)', // blue-500
-                'rgba(245, 158, 11, 0.7)', // orange-500
-                'rgba(239, 68, 68, 0.7)'   // red-500
-            ];
-            const borderColors = [
-                'rgba(59, 130, 246, 1)',
-                'rgba(245, 158, 11, 1)',
-                'rgba(239, 68, 68, 1)'
-            ];
-
-            dashboardStatusChartInstance = new Chart(context, {
-                type: 'pie', // Menggunakan pie chart
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Jumlah Customer',
-                        data: data,
-                        backgroundColor: backgroundColors,
-                        borderColor: borderColors,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right', // Legend di sebelah kanan
-                            labels: {
-                                color: '#333',
-                            }
-                        },
-                        title: {
-                            display: false, // Judul sudah ada di atas chart
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            formatter: (value, ctx) => {
-                                let sum = 0;
-                                let dataArr = ctx.chart.data.datasets[0].data;
-                                dataArr.map(data => {
-                                    sum += data;
-                                });
-                                let percentage = (value * 100 / sum).toFixed(1) + "%";
-                                return `${ctx.chart.data.labels[ctx.dataIndex]}: ${percentage}`;
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    label += context.raw;
-                                    let sum = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    let percentage = (context.raw * 100 / sum).toFixed(1) + "%";
-                                    return `${label} (${percentage})`;
-                                }
-                            }
-                        }
-                    },
-                    onClick: (event, elements, chart) => {
-                        if (elements.length > 0) {
-                            const firstElement = elements[0];
-                            const dataIndex = firstElement.index;
-                            const clickedStatus = labels[dataIndex].toUpperCase();
-
-                            const filters = [{ column: 'STATUS', value: clickedStatus }];
-                            const title = `Customer dengan Status: ${clickedStatus}`;
-                            showDetailedCustomersInModal(filters, title);
-                        }
-                    }
-                },
-                plugins: [ChartDataLabels]
-            });
         }
 
 
@@ -2357,7 +2197,8 @@
             });
         }
 
-        // 8. Distribusi umur customer suspend yang akan terminate bulan ini (1 bulan penuh)
+        // 8. Distribusi umur customer terminate bulan ini (berdasarkan seluruh data terminasi bulan berjalan,
+        //    diklasifikasikan berdasarkan umur berlangganan - sama sumber datanya dengan "Terminasi Bulan Berjalan per Sales Code")
         function renderSuspendAgeChart(startOfThisMonth, today) {
             const ctx = document.getElementById('suspendAgeChart');
             if (!ctx) return;
@@ -2371,7 +2212,7 @@
             const customersByBucket = { '1-3 Bulan': [], '4-9 Bulan': [], '9-12 Bulan': [], '> 12 Bulan': [] };
 
             allCustomers.forEach(c => {
-                if (!c.STATUS || c.STATUS.toUpperCase() !== 'SUSPENDED') return;
+                // Sama seperti renderTerminationBySalesChart: seluruh customer dengan TERMDATE di bulan berjalan
                 const term = parseDate(c.TERMDATE);
                 if (!term || term < startOfThisMonth || term > endOfThisMonth) return;
                 const start = parseDate(c.CONTRACTSTARTDATE);
@@ -2387,7 +2228,7 @@
             const errorEl = document.getElementById('suspendAgeError');
             if (totalFound === 0) {
                 context.clearRect(0, 0, ctx.width, ctx.height);
-                if (errorEl) { errorEl.classList.remove('hidden'); errorEl.textContent = 'Tidak ada customer suspend yang akan terminate bulan ini.'; }
+                if (errorEl) { errorEl.classList.remove('hidden'); errorEl.textContent = 'Tidak ada customer terminate bulan ini.'; }
                 return;
             }
             if (errorEl) errorEl.classList.add('hidden');
@@ -2406,14 +2247,50 @@
                     onClick: (evt, elements) => {
                         if (elements.length > 0) {
                             const label = bucketLabels[elements[0].index];
-                            showOverviewDetailModal(customersByBucket[label], `Customer Suspend Akan Terminate - Umur ${label}`, true, SUSPEND_AGE_DETAIL_COLUMNS);
+                            showOverviewDetailModal(customersByBucket[label], `Customer Terminate Bulan Ini - Umur ${label}`, true, SUSPEND_AGE_DETAIL_COLUMNS);
                         }
                     }
                 }
             });
         }
 
-        // 9. Status modem customer terminate bulan ini (pie chart)
+        // Klasifikasi Status Modem menjadi 3 kelas: RENT, BUY, dan DIPINJAMKAN
+        // - MODEM_STATUS = RENT  -> "Rent"
+        // - MODEM_STATUS = BUY & PROMO_CODE diawali "MODEM" (mis. MODEMPROMO25, MODEMPROMO26, MODEM WIFI PROMO) -> "Dipinjamkan"
+        //   (pengecualian: PROMO_CODE = MODEM300 tetap dianggap "Buy")
+        // - Selain itu -> "Buy"
+        const MODEM_CLASS_LABELS = { RENT: 'Rent', BUY: 'Buy', DIPINJAMKAN: 'Dipinjamkan' };
+        function classifyModemStatus(customer) {
+            const modemStatus = (customer.MODEM_STATUS || '').trim().toUpperCase();
+            const promoCode = (customer.PROMO_CODE || '').trim().toUpperCase().replace(/\s+/g, '');
+            if (modemStatus === 'RENT') return MODEM_CLASS_LABELS.RENT;
+            if (modemStatus === 'BUY') {
+                if (promoCode === 'MODEM300') return MODEM_CLASS_LABELS.BUY;
+                if (promoCode.startsWith('MODEM')) return MODEM_CLASS_LABELS.DIPINJAMKAN;
+                return MODEM_CLASS_LABELS.BUY;
+            }
+            return 'Tidak Diketahui';
+        }
+        // Warna "calm" namun tetap kontras antar segmen
+        const MODEM_CLASS_COLORS = {
+            'Rent': { bg: 'rgba(96, 165, 175, 0.75)', border: 'rgba(71, 133, 143, 1)' },       // teal muted
+            'Buy': { bg: 'rgba(129, 140, 205, 0.75)', border: 'rgba(99, 108, 176, 1)' },        // indigo muted
+            'Dipinjamkan': { bg: 'rgba(212, 165, 116, 0.75)', border: 'rgba(184, 134, 82, 1)' }, // amber muted
+            'Tidak Diketahui': { bg: 'rgba(156, 163, 175, 0.75)', border: 'rgba(107, 114, 128, 1)' }
+        };
+
+        // Kolom modal detail untuk Status Modem Terminate & Instalasi Subdistrict
+        const MODEM_SUBDISTRICT_DETAIL_COLUMNS = [
+            { label: 'Nama Lengkap', get: c => c.BP_FULLNAME || '-' },
+            { label: 'Akun Kontrak', get: c => c.CONTRACTACCOUNT || '-' },
+            { label: 'Sales Code', get: c => salesCodeNames[c.SALESCODE] ? `${salesCodeNames[c.SALESCODE]} (${c.SALESCODE})` : (c.SALESCODE || '-') },
+            { label: 'Tgl Berakhir', get: c => c.TERMDATE || '-' },
+            { label: 'Subdistrict', get: c => c.SUBDISTRICT_INST || '-' },
+            { label: 'Status Modem', get: c => c.MODEM_STATUS || '-' },
+            { label: 'Promo Code', get: c => c.PROMO_CODE || '-' }
+        ];
+
+        // 9. Status modem customer terminate bulan ini (pie chart, 3 klasifikasi)
         function renderModemStatusTerminateChart(startOfThisMonth, today) {
             const ctx = document.getElementById('modemStatusTerminateChart');
             if (!ctx) return;
@@ -2421,12 +2298,14 @@
             if (modemStatusTerminateChartInstance) modemStatusTerminateChartInstance.destroy();
 
             const counts = {};
+            const customersByClass = {};
             allCustomers.forEach(c => {
                 if (!c.STATUS || c.STATUS.toUpperCase() !== 'TERMINATED') return;
                 const d = parseDate(c.TERMDATE);
                 if (!d || d < startOfThisMonth || d > today) return;
-                const modem = c.MODEM_STATUS || 'Tidak Diketahui';
-                counts[modem] = (counts[modem] || 0) + 1;
+                const modemClass = classifyModemStatus(c);
+                counts[modemClass] = (counts[modemClass] || 0) + 1;
+                (customersByClass[modemClass] = customersByClass[modemClass] || []).push(c);
             });
 
             const errorEl = document.getElementById('modemStatusTerminateError');
@@ -2439,18 +2318,35 @@
             if (errorEl) errorEl.classList.add('hidden');
 
             const data = labels.map(l => counts[l]);
-            const bg = labels.map((_, i) => paletteColor(i, 0.75));
-            const bd = labels.map((_, i) => paletteColor(i, 1));
+            const bg = labels.map(l => (MODEM_CLASS_COLORS[l] || MODEM_CLASS_COLORS['Tidak Diketahui']).bg);
+            const bd = labels.map(l => (MODEM_CLASS_COLORS[l] || MODEM_CLASS_COLORS['Tidak Diketahui']).border);
 
             modemStatusTerminateChartInstance = new Chart(context, {
                 type: 'pie',
                 data: { labels: labels, datasets: [{ data: data, backgroundColor: bg, borderColor: bd, borderWidth: 1 }] },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'right', labels: { color: '#333', boxWidth: 12, font: { size: 11 } } } }
+                    plugins: { legend: { position: 'right', labels: { color: '#333', boxWidth: 12, font: { size: 11 } } } },
+                    onClick: (evt, elements) => {
+                        if (elements.length > 0) {
+                            const label = labels[elements[0].index];
+                            showOverviewDetailModal(customersByClass[label] || [], `Status Modem Terminate Bulan Ini - ${label}`, true, MODEM_SUBDISTRICT_DETAIL_COLUMNS);
+                        }
+                    }
                 }
             });
         }
+
+        // Kolom modal detail untuk Instalasi per Subdistrict (memakai INSTALLATION_ADDRESS3, bukan Subdistrict)
+        const SUBDISTRICT_INSTALL_DETAIL_COLUMNS = [
+            { label: 'Nama Lengkap', get: c => c.BP_FULLNAME || '-' },
+            { label: 'Akun Kontrak', get: c => c.CONTRACTACCOUNT || '-' },
+            { label: 'Sales Code', get: c => salesCodeNames[c.SALESCODE] ? `${salesCodeNames[c.SALESCODE]} (${c.SALESCODE})` : (c.SALESCODE || '-') },
+            { label: 'Tgl Berakhir', get: c => c.TERMDATE || '-' },
+            { label: 'Alamat Instalasi 3', get: c => c.INSTALLATION_ADDRESS3 || '-' },
+            { label: 'Status Modem', get: c => c.MODEM_STATUS || '-' },
+            { label: 'Promo Code', get: c => c.PROMO_CODE || '-' }
+        ];
 
         // 10. Instalasi bulan berjalan per Subdistrict
         function renderSubdistrictInstallChart(startOfThisMonth, today) {
@@ -2460,11 +2356,13 @@
             if (subdistrictInstallChartInstance) subdistrictInstallChartInstance.destroy();
 
             const counts = {};
+            const customersBySub = {};
             allCustomers.forEach(c => {
                 const d = parseDate(c.CONTRACTSTARTDATE);
                 if (!d || d < startOfThisMonth || d > today) return;
                 const sub = (c.SUBDISTRICT_INST || 'Tidak Diketahui').trim();
                 counts[sub] = (counts[sub] || 0) + 1;
+                (customersBySub[sub] = customersBySub[sub] || []).push(c);
             });
 
             const errorEl = document.getElementById('subdistrictInstallError');
@@ -2483,7 +2381,13 @@
                     indexAxis: 'y',
                     responsive: true, maintainAspectRatio: false,
                     scales: { x: { beginAtZero: true, ticks: { precision: 0 } } },
-                    plugins: { legend: { display: false } }
+                    plugins: { legend: { display: false } },
+                    onClick: (evt, elements) => {
+                        if (elements.length > 0) {
+                            const sub = sortedSubs[elements[0].index];
+                            showOverviewDetailModal(customersBySub[sub] || [], `Instalasi Bulan Ini - ${sub}`, false, SUBDISTRICT_INSTALL_DETAIL_COLUMNS);
+                        }
+                    }
                 }
             });
         }
@@ -2943,313 +2847,6 @@
             });
         }
 
-        // Helper function untuk memperbarui netSubsDetailTable
-        function updateNetSubsDetailTable(customers, clickedDataType) {
-            const tableBody = document.querySelector('#netSubsDetailTable tbody');
-            const messageElement = document.getElementById('netSubsDetailTableMessage');
-            tableBody.innerHTML = '';
-            if (customers.length === 0) {
-                messageElement.textContent = `Tidak ada customer ${clickedDataType ? `untuk ${clickedDataType}` : ''} yang sesuai dengan kriteria yang dipilih.`;
-                messageElement.classList.remove('hidden');
-            } else {
-                messageElement.classList.add('hidden');
-                customers.forEach(customer => {
-                    const row = tableBody.insertRow();
-                    row.insertCell().textContent = customer.BP_FULLNAME || '-';
-                    row.insertCell().textContent = customer.CONTRACTACCOUNT || '-';
-                    row.insertCell().textContent = salesCodeNames[customer.SALESCODE] ? `${salesCodeNames[customer.SALESCODE]} (${customer.SALESCODE})` : customer.SALESCODE || '-';
-                    row.insertCell().textContent = customer.STATUS || '-';
-                    row.insertCell().textContent = customer.CONTRACTSTARTDATE || '-';
-                    row.insertCell().textContent = customer.EXPIREDDATE || '-';
-                    row.insertCell().textContent = customer.TERMDATE || '-';
-                    row.insertCell().textContent = customer.BP_PHONE || '-';
-                    row.insertCell().textContent = customer.BP_EMAIL || '-';
-
-                    const actionCell = row.insertCell();
-                    const vaButton = document.createElement('button');
-                    vaButton.classList.add('px-3', 'py-1', 'bg-blue-500', 'text-white', 'rounded-md', 'hover:bg-blue-600', 'text-sm');
-                    vaButton.textContent = 'Lihat VA';
-                    vaButton.onclick = () => showVaDetail(customer);
-                    actionCell.appendChild(vaButton);
-                    
-                    row.classList.add('hover:bg-gray-50');
-                    row.querySelectorAll('td').forEach(cell => cell.classList.add('py-2', 'px-4', 'text-sm', 'text-gray-700', 'whitespace-nowrap'));
-                });
-            }
-        }
-
-
-        // Diperbarui: renderNetSubsChart dengan data Suspend
-        function renderNetSubsChart() {
-            const ctx = document.getElementById('netSubsChart');
-            if (!ctx) return;
-            const context = ctx.getContext('2d');
-
-            if (netSubsChartInstance) {
-                netSubsChartInstance.destroy();
-            }
-
-            const selectedSalesCode = document.getElementById('salesCodeNetSubsFilter').value;
-
-            let customersToAnalyze = allCustomers;
-            if (selectedSalesCode) {
-                customersToAnalyze = allCustomers.filter(customer =>
-                    customer.SALESCODE === selectedSalesCode
-                );
-            }
-
-            const monthlyNetSubsData = {};
-            const allMonths = new Set();
-
-            customersToAnalyze.forEach(customer => {
-                // Pelanggan Baru
-                const contractDate = parseDate(customer.CONTRACTSTARTDATE);
-                if (contractDate) {
-                    const yearMonth = `${contractDate.getFullYear()}-${(contractDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                    allMonths.add(yearMonth);
-                    if (!monthlyNetSubsData[yearMonth]) {
-                        monthlyNetSubsData[yearMonth] = { New: 0, Terminated: 0, Suspend: 0, Net: 0 };
-                    }
-                    monthlyNetSubsData[yearMonth].New++;
-                }
-
-                // Pelanggan Terminated
-                if (customer.STATUS && customer.STATUS.toUpperCase() === 'TERMINATED') {
-                    const termDate = parseDate(customer.TERMDATE);
-                    if (termDate) {
-                        const yearMonth = `${termDate.getFullYear()}-${(termDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                        allMonths.add(yearMonth);
-                        if (!monthlyNetSubsData[yearMonth]) {
-                            monthlyNetSubsData[yearMonth] = { New: 0, Terminated: 0, Suspend: 0, Net: 0 };
-                        }
-                        monthlyNetSubsData[yearMonth].Terminated++;
-                    }
-                }
-
-                // Pelanggan Suspend
-                if (customer.STATUS && customer.STATUS.toUpperCase() === 'SUSPENDED') {
-                    const expiredDate = parseDate(customer.EXPIREDDATE); // Gunakan EXPIREDDATE untuk Suspend
-                    if (expiredDate) {
-                        const yearMonth = `${expiredDate.getFullYear()}-${(expiredDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                        allMonths.add(yearMonth);
-                        if (!monthlyNetSubsData[yearMonth]) {
-                            monthlyNetSubsData[yearMonth] = { New: 0, Terminated: 0, Suspend: 0, Net: 0 };
-                        }
-                        monthlyNetSubsData[yearMonth].Suspend++;
-                    }
-                }
-            });
-
-            const sortedMonths = Array.from(allMonths).sort();
-            sortedMonths.forEach(month => {
-                if (monthlyNetSubsData[month]) {
-                    // Net Subs sekarang adalah Customer Baru - Terminated
-                    monthlyNetSubsData[month].Net = monthlyNetSubsData[month].New - monthlyNetSubsData[month].Terminated;
-                }
-            });
-
-            const newData = sortedMonths.map(month => monthlyNetSubsData[month] ? monthlyNetSubsData[month].New : 0);
-            const terminatedData = sortedMonths.map(month => monthlyNetSubsData[month] ? monthlyNetSubsData[month].Terminated : 0);
-            const suspendData = sortedMonths.map(month => monthlyNetSubsData[month] ? monthlyNetSubsData[month].Suspend : 0); // Data Suspend
-            const netData = sortedMonths.map(month => monthlyNetSubsData[month] ? monthlyNetSubsData[month].Net : 0);
-
-            const datasets = [
-                {
-                    label: 'Customer Baru',
-                    data: newData,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
-                    tension: 0.1,
-                    fill: false,
-                    pointRadius: 5,
-                    pointHoverRadius: 8
-                },
-                {
-                    label: 'Terminated',
-                    data: terminatedData,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                    tension: 0.1,
-                    fill: false,
-                    pointRadius: 5,
-                    pointHoverRadius: 8
-                },
-                {
-                    label: 'Suspend', // Dataset baru untuk Suspend
-                    data: suspendData,
-                    borderColor: 'rgba(255, 159, 64, 1)', // Warna orange
-                    backgroundColor: 'rgba(255, 159, 64, 0.7)',
-                    tension: 0.1,
-                    fill: false,
-                    pointRadius: 5,
-                    pointHoverRadius: 8
-                },
-                {
-                    label: 'Net Subs',
-                    data: netData,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                    tension: 0.1,
-                    fill: false,
-                    pointRadius: 7,
-                    pointHoverRadius: 10,
-                    borderWidth: 2
-                }
-            ];
-
-            if (newData.reduce((a, b) => a + b, 0) === 0 && terminatedData.reduce((a, b) => a + b, 0) === 0 && suspendData.reduce((a, b) => a + b, 0) === 0) {
-                 context.clearRect(0, 0, ctx.width, ctx.height);
-                 document.getElementById('netSubsChartError').classList.remove('hidden');
-                 document.getElementById('netSubsChartError').textContent = `Tidak ada data Net Subs, Suspend, atau Terminated untuk Sales Code ${salesCodeNames[selectedSalesCode] ? `${salesCodeNames[selectedSalesCode]} (${selectedSalesCode})` : (selectedSalesCode || 'yang dipilih')}.`;
-                 updateNetSubsDetailTable([]);
-                 return;
-            } else {
-                 document.getElementById('netSubsChartError').classList.add('hidden');
-            }
-
-            netSubsChartInstance = new Chart(context, {
-                type: 'line',
-                data: {
-                    labels: sortedMonths,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                color: '#333',
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: `Analisis Net Subscribers per Bulan (Baru, Suspend & Terminated) untuk Sales Code ${salesCodeNames[selectedSalesCode] ? `${salesCodeNames[selectedSalesCode]} (${selectedSalesCode})` : (selectedSalesCode || 'Semua Sales Code')}`,
-                            color: '#333'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    label += context.raw;
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Bulan',
-                                color: '#333'
-                            },
-                            ticks: {
-                                color: '#333'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Jumlah Customer',
-                                color: '#333'
-                            },
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0,
-                                color: '#333'
-                            }
-                        }
-                    },
-                    onClick: (event, elements, chart) => {
-                        if (elements.length > 0) {
-                            const firstElement = elements[0];
-                            const datasetIndex = firstElement.datasetIndex;
-                            const dataIndex = firstElement.index;
-
-                            const clickedMonth = sortedMonths[dataIndex];
-                            const clickedDataType = datasets[datasetIndex].label; // 'Customer Baru', 'Terminated', 'Suspend', 'Net Subs'
-                            console.log(`Diklik: ${clickedDataType} untuk bulan: ${clickedMonth}`);
-
-                            const currentFilters = [];
-                            if (selectedSalesCode) {
-                                currentFilters.push({ column: 'SALESCODE', value: selectedSalesCode });
-                                console.log(`  Menerapkan filter Sales Code: ${selectedSalesCode}`);
-                            }
-
-                            let customersForTable = [];
-                            if (clickedDataType === 'Customer Baru') {
-                                customersForTable = allCustomers.filter(customer => {
-                                    const contractDate = parseDate(customer.CONTRACTSTARTDATE);
-                                    if (!contractDate) return false;
-                                    const yearMonth = `${contractDate.getFullYear()}-${(contractDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                                    return yearMonth === clickedMonth && 
-                                           (selectedSalesCode === '' || customer.SALESCODE === selectedSalesCode);
-                                });
-                                console.log("  Memfilter untuk Customer Baru.");
-                            } else if (clickedDataType === 'Terminated') {
-                                customersForTable = allCustomers.filter(customer => {
-                                    const termDate = parseDate(customer.TERMDATE);
-                                    if (!termDate) return false;
-                                    const yearMonth = `${termDate.getFullYear()}-${(termDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                                    return yearMonth === clickedMonth && 
-                                           (customer.STATUS && customer.STATUS.toUpperCase() === 'TERMINATED') &&
-                                           (selectedSalesCode === '' || customer.SALESCODE === selectedSalesCode);
-                                });
-                                console.log("  Memfilter untuk Terminated.");
-                            } else if (clickedDataType === 'Suspend') { // Logika baru untuk Suspend
-                                customersForTable = allCustomers.filter(customer => {
-                                    const expiredDate = parseDate(customer.EXPIREDDATE);
-                                    if (!expiredDate) return false;
-                                    const yearMonth = `${expiredDate.getFullYear()}-${(expiredDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                                    return yearMonth === clickedMonth &&
-                                           (customer.STATUS && customer.STATUS.toUpperCase() === 'SUSPENDED') &&
-                                           (selectedSalesCode === '' || customer.SALESCODE === selectedSalesCode);
-                                });
-                                console.log("  Memfilter untuk Suspend.");
-                            }
-                            else if (clickedDataType === 'Net Subs') {
-                                customersForTable = allCustomers.filter(customer => {
-                                    const isNew = (() => {
-                                        const contractDate = parseDate(customer.CONTRACTSTARTDATE);
-                                        if (!contractDate) return false;
-                                        const yearMonth = `${contractDate.getFullYear()}-${(contractDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                                        return yearMonth === clickedMonth && (selectedSalesCode === '' || customer.SALESCODE === selectedSalesCode);
-                                    })();
-
-                                    const isTerminated = (() => {
-                                        const termDate = parseDate(customer.TERMDATE);
-                                        if (!termDate) return false;
-                                        const yearMonth = `${termDate.getFullYear()}-${(termDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                                        return yearMonth === clickedMonth && 
-                                               (customer.STATUS && customer.STATUS.toUpperCase() === 'TERMINATED') &&
-                                               (selectedSalesCode === '' || customer.SALESCODE === selectedSalesCode);
-                                    })();
-                                    const isSuspended = (() => { // Include suspended for Net Subs total as well
-                                        const expiredDate = parseDate(customer.EXPIREDDATE);
-                                        if (!expiredDate) return false;
-                                        const yearMonth = `${expiredDate.getFullYear()}-${(expiredDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                                        return yearMonth === clickedMonth && 
-                                               (customer.STATUS && customer.STATUS.toUpperCase() === 'SUSPENDED') &&
-                                               (selectedSalesCode === '' || customer.SALESCODE === selectedSalesCode);
-                                    })();
-                                    return isNew || isTerminated || isSuspended; // Net Subs should also reflect suspend
-                                });
-                                console.log("  Memfilter untuk Net Subs (gabungan baru, terminated, dan suspended).");
-                            }
-                            console.log("Customer ditemukan untuk tabel:", customersForTable.length, customersForTable);
-                            updateNetSubsDetailTable(customersForTable, clickedDataType);
-                        } else {
-                            updateNetSubsDetailTable([]);
-                        }
-                    }
-                }
-            });
-        }
 
         // NEW: Function to render Daily New Subscribers Chart
         function renderDailyNewSubsChart() {
@@ -3701,15 +3298,10 @@
         // Target individu new-install per bulan untuk masing-masing Sales Code (Area Coordinator).
         // Silakan sesuaikan angkanya per ARCO; default dipakai jika kode belum diatur di sini.
         const individualSalesTargets = {};
-        const DEFAULT_INDIVIDUAL_SALES_TARGET = 30;
+        const DEFAULT_INDIVIDUAL_SALES_TARGET = 50;
 
         function renderSalesRanking() {
-            const suspendedCustomersRankingDiv = document.getElementById('suspendedCustomersRanking');
-            const terminatedCustomersRankingDiv = document.getElementById('terminatedCustomersRanking');
-            const rankingMonthYearSpan = document.getElementById('rankingMonthYear'); // Changed ID
-
-            suspendedCustomersRankingDiv.innerHTML = '<p class="text-center text-gray-500">Memuat peringkat...</p>';
-            terminatedCustomersRankingDiv.innerHTML = '<p class="text-center text-gray-500">Memuat peringkat...</p>';
+            const rankingMonthYearSpan = document.getElementById('rankingMonthYear');
 
             const now = new Date();
             const currentYear = now.getFullYear();
@@ -3720,17 +3312,18 @@
             const prevMonthYear = `${prevMonthDate.getFullYear()}-${(prevMonthDate.getMonth() + 1).toString().padStart(2, '0')}`;
             
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            rankingMonthYearSpan.textContent = `${monthNames[now.getMonth()]} ${currentYear}`; // Updated text
+            rankingMonthYearSpan.textContent = `${monthNames[now.getMonth()]} ${currentYear}`;
 
             const salesStats = {};
             const salesStatsPrevMonth = {}; // { salescode: newCountBulanLalu }
+            const salesCustomersThisMonth = {}; // { salescode: [customer, ...] } - untuk drill-down klik
 
             allCustomers.forEach(customer => {
                 const salesCode = customer.SALESCODE;
                 if (!salesCode) return;
 
                 if (!salesStats[salesCode]) {
-                    salesStats[salesCode] = { New: 0, Suspended: 0, Terminated: 0 };
+                    salesStats[salesCode] = { New: 0 };
                 }
 
                 // Periksa bulan saat ini untuk pelanggan baru (CONTRACTSTARTDATE)
@@ -3739,45 +3332,19 @@
                     const customerMonthYear = `${contractDate.getFullYear()}-${(contractDate.getMonth() + 1).toString().padStart(2, '0')}`;
                     if (customerMonthYear === currentMonthYear) {
                         salesStats[salesCode].New++;
+                        (salesCustomersThisMonth[salesCode] = salesCustomersThisMonth[salesCode] || []).push(customer);
                     } else if (customerMonthYear === prevMonthYear) {
                         salesStatsPrevMonth[salesCode] = (salesStatsPrevMonth[salesCode] || 0) + 1;
-                    }
-                } 
-                
-                // Periksa bulan saat ini untuk pelanggan suspend (EXPIREDDATE)
-                const expiredDate = parseDate(customer.EXPIREDDATE);
-                if (customer.STATUS && customer.STATUS.toUpperCase() === 'SUSPENDED' && expiredDate) {
-                    const customerMonthYear = `${expiredDate.getFullYear()}-${(expiredDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                    if (customerMonthYear === currentMonthYear) {
-                        salesStats[salesCode].Suspended++;
-                    }
-                } 
-                
-                // Periksa bulan saat ini untuk pelanggan terminated (TERMDATE)
-                const termDate = parseDate(customer.TERMDATE);
-                if (customer.STATUS && customer.STATUS.toUpperCase() === 'TERMINATED' && termDate) {
-                    const customerMonthYear = `${termDate.getFullYear()}-${(termDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                    if (customerMonthYear === currentMonthYear) {
-                        salesStats[salesCode].Terminated++;
                     }
                 }
             });
 
-            renderNewCustomerRankingTable(salesStats, salesStatsPrevMonth);
-
-            const sortedSalesSuspended = Object.entries(salesStats)
-                .sort(([, a], [, b]) => a.Suspended - b.Suspended) // Terendah ke Tertinggi (jumlah suspend tersedikit = terbaik)
-                .slice(0, 3);
-            displayRanking(suspendedCustomersRankingDiv, sortedSalesSuspended, 'Suspended', 'sales-suspended-count');
-
-            const sortedSalesTerminated = Object.entries(salesStats)
-                .sort(([, a], [, b]) => a.Terminated - b.Terminated) // Terendah ke Tertinggi (jumlah terminated tersedikit = terbaik)
-                .slice(0, 3);
-            displayRanking(terminatedCustomersRankingDiv, sortedSalesTerminated, 'Terminated', 'sales-terminated-count');
+            renderNewCustomerRankingTable(salesStats, salesStatsPrevMonth, salesCustomersThisMonth);
         }
 
-        // Tabel Ranking Pelanggan Baru: tren peringkat vs bulan lalu, progress bar target individu, badge & hint kejar-kejaran
-        function renderNewCustomerRankingTable(salesStats, salesStatsPrevMonth) {
+        // Tabel Ranking Pelanggan Baru: tren penjualan bulan lalu vs bulan ini (naik/turun berapa banyak),
+        // progress bar target individu (target 50/ARCO), badge, dan drill-down klik ke daftar customer.
+        function renderNewCustomerRankingTable(salesStats, salesStatsPrevMonth, salesCustomersThisMonth) {
             const tbody = document.getElementById('newCustomerRankingBody');
             if (!tbody) return;
 
@@ -3791,12 +3358,6 @@
                 return;
             }
 
-            // Ranking bulan lalu (untuk membandingkan posisi/tren)
-            const prevRanking = Object.entries(salesStatsPrevMonth)
-                .sort(([, a], [, b]) => b - a);
-            const prevRankMap = {};
-            prevRanking.forEach(([code], idx) => { prevRankMap[code] = idx + 1; });
-
             tbody.innerHTML = '';
             currentRanking.forEach(([salesCode, stats], index) => {
                 const rank = index + 1;
@@ -3807,15 +3368,20 @@
                 const barWidth = Math.min(100, progressPct);
                 const barColor = progressPct >= 100 ? '#16A34A' : (progressPct >= 60 ? '#2563EB' : '#F59E0B');
 
-                // Tren: bandingkan posisi ranking sekarang vs bulan lalu
-                const prevRank = prevRankMap[salesCode];
-                let trendHtml = '<span class="text-gray-400" title="Belum ada data bulan lalu"><i class="fas fa-minus"></i> Baru</span>';
-                if (prevRank !== undefined) {
-                    if (prevRank > rank) trendHtml = '<span class="text-green-600" title="Naik peringkat"><i class="fas fa-arrow-up"></i> Naik</span>';
-                    else if (prevRank < rank) trendHtml = '<span class="text-red-600" title="Turun peringkat"><i class="fas fa-arrow-down"></i> Turun</span>';
-                    else trendHtml = '<span class="text-gray-500" title="Peringkat tetap"><i class="fas fa-equals"></i> Tetap</span>';
+                // Tren: bandingkan jumlah penjualan bulan lalu vs bulan ini (naik/turun berapa banyak)
+                const prevCount = salesStatsPrevMonth[salesCode] || 0;
+                const diff = total - prevCount;
+                let trendHtml;
+                if (prevCount === 0) {
+                    trendHtml = '<span class="text-gray-400" title="Belum ada data bulan lalu"><i class="fas fa-minus"></i> Baru</span>';
+                } else if (diff > 0) {
+                    trendHtml = `<span class="text-green-600" title="Naik dibanding bulan lalu"><i class="fas fa-arrow-up"></i> Naik ${diff}</span>`;
+                } else if (diff < 0) {
+                    trendHtml = `<span class="text-red-600" title="Turun dibanding bulan lalu"><i class="fas fa-arrow-down"></i> Turun ${Math.abs(diff)}</span>`;
+                } else {
+                    trendHtml = '<span class="text-gray-500" title="Sama dengan bulan lalu"><i class="fas fa-equals"></i> Tetap</span>';
                 }
-                const isHotStreak = prevRank !== undefined && prevRank > rank;
+                const isHotStreak = diff > 0;
 
                 // Badge nomor urut + trofi untuk juara 1
                 let rankBadge = `<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-100 text-gray-700 font-bold text-sm">${rank}</span>`;
@@ -3834,7 +3400,8 @@
                 }
 
                 const row = document.createElement('tr');
-                row.className = 'border-b border-gray-100 hover:bg-gray-50';
+                row.className = 'border-b border-gray-100 hover:bg-gray-50 cursor-pointer';
+                row.title = 'Klik untuk melihat daftar customer baru dari ARCO ini';
                 row.innerHTML = `
                     <td class="py-3 pr-3 align-top">${rankBadge}</td>
                     <td class="py-3 pr-3 align-top">
@@ -3854,37 +3421,11 @@
                     </td>
                     <td class="py-3 pr-3 align-top text-right font-bold text-gray-800">${total}</td>
                 `;
+                row.addEventListener('click', () => {
+                    const customers = salesCustomersThisMonth[salesCode] || [];
+                    showOverviewDetailModal(customers, `Customer Baru Bulan Ini - ${salesName}`, true, MODEM_SUBDISTRICT_DETAIL_COLUMNS);
+                });
                 tbody.appendChild(row);
-            });
-        }
-
-        function displayRanking(element, rankingData, type, countClass) {
-            element.innerHTML = ''; // Clear previous content
-            
-            // Filter out sales with 0 count for the specific type
-            const filteredRankingData = rankingData.filter(([, stats]) => stats[type] > 0);
-
-            if (filteredRankingData.length === 0) {
-                element.innerHTML = '<p class="text-center text-gray-500">Tidak ada data untuk bulan ini.</p>';
-                return;
-            }
-
-            filteredRankingData.forEach(([salesCode, stats], index) => {
-                const salesName = salesCodeNames[salesCode] || salesCode;
-                const rankDiv = document.createElement('div');
-                rankDiv.classList.add('ranking-item');
-                
-                let rankBgClass = '';
-                if (index === 0) rankBgClass = 'rank-bg-1';
-                else if (index === 1) rankBgClass = 'rank-bg-2';
-                else if (index === 2) rankBgClass = 'rank-bg-3';
-                
-                rankDiv.innerHTML = `
-                    <span class="rank-number ${rankBgClass} rounded-full flex items-center justify-center p-1 font-bold text-white text-base">${index + 1}</span>
-                    <span class="sales-name">${salesName}</span>
-                    <span class="sales-count ${countClass}">${stats[type]}</span>
-                `;
-                element.appendChild(rankDiv);
             });
         }
 
@@ -3943,24 +3484,14 @@
             updateClock(); // Update clock immediately
             setInterval(updateClock, 1000); // Update clock every second
 
-            // Fungsionalitas toggle sidebar untuk mobile
+            // Fungsionalitas toggle sidebar (berfungsi di semua ukuran layar)
             document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
             document.getElementById('openSidebarBtn').addEventListener('click', toggleSidebar);
 
-            // Perhatikan perubahan ukuran layar untuk mengelola visibilitas tombol
+            // Saat ukuran layar berubah, perbarui tampilan overlay/tombol sesuai breakpoint baru
+            // tanpa memaksa membuka/menutup sidebar yang sudah dipilih pengguna secara manual.
             window.addEventListener('resize', () => {
-                const sidebar = document.getElementById('sidebar');
-                const openSidebarBtn = document.getElementById('openSidebarBtn');
-                if (window.innerWidth > 768) {
-                    sidebar.classList.remove('-translate-x-full');
-                    openSidebarBtn.classList.add('hidden'); // Hide on desktop
-                } else {
-                    if (sidebar.classList.contains('-translate-x-full')) {
-                        openSidebarBtn.classList.remove('hidden'); // Show on mobile if sidebar is closed
-                    } else {
-                        openSidebarBtn.classList.add('hidden'); // Hide on mobile if sidebar is open
-                    }
-                }
+                setSidebarOpen(isSidebarOpen());
             });
 
             // Ciutkan/perluas submenu analisis
@@ -3981,10 +3512,6 @@
             });
 
             showSection('customerOverview');
-            // Pastikan sidebar terlihat di layar yang lebih besar secara default
-            if (window.innerWidth > 768) {
-                document.getElementById('sidebar').classList.remove('-translate-x-full');
-            }
         });
 
         // Pendengar Acara untuk Filter Ringkasan Pelanggan
@@ -3995,7 +3522,6 @@
 
         // Pendengar Acara untuk Filter Bagian Analisis
         document.getElementById('salesCodeKecamatanFilter').addEventListener('change', renderKecamatanChart);
-        document.getElementById('salesCodeNetSubsFilter').addEventListener('change', renderNetSubsChart);
 
         // Pendengar Acara untuk Filter Daily New Subscribers
         document.getElementById('applyNewSubsFilterBtn').addEventListener('click', renderDailyNewSubsChart);
