@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Dashboard Data Customer Biznet</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -290,7 +290,7 @@
     <aside id="sidebar" class="w-64 bg-gray-700 text-white flex flex-col p-5 shadow-lg
                              transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-50">
         <div class="flex items-center justify-center mb-6">
-            <img src="Biznet Logo.png" alt="Biznet Logo" class="h-20 w-auto">
+            <img src="Biznet_Logo.png" alt="Biznet Logo" class="h-20 w-auto">
         </div>
         <h3 class="text-xl font-semibold text-center mb-6">Dashboard Branch Bandar Lampung Campang Raya</h3>
         <nav class="flex-grow">
@@ -375,40 +375,6 @@
             <!-- Customer Overview Section -->
             <section id="customerOverview" class="content-section">
                 <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Daftar Customer</h2>
-
-                    <!-- Dashboard Summary Cards -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-                        <div class="metric-card p-6 flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-semibold text-gray-500">Customer Active</h4>
-                                <p id="activeCustomersCount" class="text-3xl font-bold text-gray-800">0</p>
-                            </div>
-                            <div class="icon-box icon-blue"><i class="fas fa-user-check"></i></div>
-                        </div>
-                        <div class="metric-card p-6 flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-semibold text-gray-500">Customer Suspend</h4>
-                                <p id="suspendedCustomersCount" class="text-3xl font-bold text-gray-800">0</p>
-                            </div>
-                            <div class="icon-box icon-orange"><i class="fas fa-user-clock"></i></div>
-                        </div>
-                        <div class="metric-card p-6 flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-semibold text-gray-500">Customer Terminated</h4>
-                                <p id="terminatedCustomersCount" class="text-3xl font-bold text-gray-800">0</p>
-                            </div>
-                            <div class="icon-box icon-red"><i class="fas fa-user-slash"></i></div>
-                        </div>
-                        <div class="metric-card p-6 flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-semibold text-gray-500">Total Customer Terminasi (All Time)</h4>
-                                <p id="totalTerminatedCustomersDisplay" class="text-3xl font-bold text-gray-800">0</p>
-                            </div>
-                            <div class="icon-box icon-gray"><i class="fas fa-user-times"></i></div>
-                        </div>
-                    </div>
-
                     <!-- ================= INSIGHT BULAN BERJALAN ================= -->
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-4 mt-2">
                         <h3 class="text-lg font-bold text-gray-800">Insight Bulan Berjalan</h3>
@@ -596,6 +562,33 @@
                             <canvas id="penetrationChart"></canvas>
                         </div>
                         <p id="penetrationError" class="text-center text-red-500 text-sm mt-2 hidden"></p>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Daftar Customer</h2>
+
+                    <!-- Dashboard Summary Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="metric-card p-6 flex items-center justify-between">
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-500">Customer Active</h4>
+                                <p id="activeCustomersCount" class="text-3xl font-bold text-gray-800">0</p>
+                            </div>
+                            <div class="icon-box icon-blue"><i class="fas fa-user-check"></i></div>
+                        </div>
+                        <div class="metric-card p-6 flex items-center justify-between">
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-500">Customer Suspend</h4>
+                                <p id="suspendedCustomersCount" class="text-3xl font-bold text-gray-800">0</p>
+                            </div>
+                            <div class="icon-box icon-orange"><i class="fas fa-user-clock"></i></div>
+                        </div>
+                        <div class="metric-card p-6 flex items-center justify-between">
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-500">Total Customer Terminasi (All Time)</h4>
+                                <p id="totalTerminatedCustomersDisplay" class="text-3xl font-bold text-gray-800">0</p>
+                            </div>
+                            <div class="icon-box icon-gray"><i class="fas fa-user-times"></i></div>
+                        </div>
                     </div>
 
                     <!-- Customer Filters -->
@@ -950,6 +943,7 @@
                                     <th class="py-3 px-4 uppercase font-semibold text-sm">STATUS</th>
                                     <th class="py-3 px-4 uppercase font-semibold text-sm">EXPIREDDATE</th>
                                     <th class="py-3 px-4 uppercase font-semibold text-sm">TERMDATE</th>
+                                    <th class="py-3 px-4 uppercase font-semibold text-sm">Status Modem</th>
                                     <th class="py-3 px-4 uppercase font-semibold text-sm rounded-tr-lg">Action</th>
                                 </tr>
                             </thead>
@@ -1790,7 +1784,8 @@
             // Perbarui kartu ringkasan
             document.getElementById('activeCustomersCount').textContent = formatNumber(activeCount);
             document.getElementById('suspendedCustomersCount').textContent = formatNumber(suspendedCount);
-            document.getElementById('terminatedCustomersCount').textContent = formatNumber(terminatedCount);
+            const terminatedCountEl = document.getElementById('terminatedCustomersCount');
+            if (terminatedCountEl) terminatedCountEl.textContent = formatNumber(terminatedCount);
             document.getElementById('totalTerminatedCustomersDisplay').textContent = formatNumber(totalTerminatedCount);
 
             // Render semua insight tambahan (KPI, target, forecast, dan chart-chart baru)
@@ -1842,10 +1837,15 @@
             const currentDay = today.getDate();
 
             const startOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-            const sameDayLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, currentDay);
-            const startOfLastMonth = new Date(sameDayLastMonth.getFullYear(), sameDayLastMonth.getMonth(), 1);
             const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-            const daysInLastMonth = new Date(startOfLastMonth.getFullYear(), startOfLastMonth.getMonth() + 1, 0).getDate();
+            // Tentukan bulan lalu terlebih dahulu (tahun & bulan), baru hitung tanggal pembandingnya.
+            // Ini mencegah "rollover" saat bulan berjalan punya lebih banyak hari daripada bulan lalu
+            // (mis. 31 Juli dibandingkan ke bulan Juni yang cuma 30 hari -> tetap closing 30 Juni,
+            // bukan meloncat ke 1 Juli).
+            const lastMonthRef = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+            const startOfLastMonth = new Date(lastMonthRef.getFullYear(), lastMonthRef.getMonth(), 1);
+            const daysInLastMonth = new Date(lastMonthRef.getFullYear(), lastMonthRef.getMonth() + 1, 0).getDate();
+            const sameDayLastMonth = new Date(lastMonthRef.getFullYear(), lastMonthRef.getMonth(), Math.min(currentDay, daysInLastMonth));
 
             const periodLabelEl = document.getElementById('insightPeriodLabel');
             if (periodLabelEl) {
@@ -3256,7 +3256,8 @@
                     row.insertCell().textContent = customer.STATUS || '-';
                     row.insertCell().textContent = customer.EXPIREDDATE || '-';
                     row.insertCell().textContent = customer.TERMDATE || '-';
-                    
+                    row.insertCell().textContent = classifyModemStatus(customer);
+
                     const actionCell = row.insertCell();
                     actionCell.classList.add('space-x-2', 'whitespace-nowrap');
                     const vaButton = document.createElement('button');
