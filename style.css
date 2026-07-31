@@ -123,6 +123,33 @@ html, body {
     max-width: 100%;
 }
 
+/* Pastikan semua elemen mengikuti box-sizing yang konsisten,
+   supaya padding/border tidak membuat elemen melebar keluar layar. */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Cegah gambar/canvas melebihi lebar kontainernya di HP */
+img, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Beri area scroll horizontal yang halus untuk tabel di HP,
+   alih-alih konten terpotong tanpa bisa digeser. */
+.overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Perbesar area sentuh tombol menu (hamburger) agar mudah di-tap di HP */
+#sidebarToggle {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* --- Responsive: Header --- */
 @media (max-width: 480px) {
     .header-clock {
@@ -149,6 +176,51 @@ html, body {
 @media (min-width: 641px) and (max-width: 1024px) {
     .chart-container {
         height: 300px !important;
+    }
+}
+
+/* --- Responsive: layar HP sangat kecil (<=400px) --- */
+@media (max-width: 400px) {
+    header h1 {
+        font-size: 0.85rem !important;
+    }
+    main.flex-1 {
+        padding: 0.75rem !important;
+    }
+    .metric-card, .bg-white.p-6, .bg-white.p-4 {
+        padding: 0.75rem !important;
+    }
+    .chart-container {
+        height: 220px !important;
+    }
+    .table-custom th, .table-custom td {
+        font-size: 0.7rem !important;
+        padding: 6px 8px !important;
+    }
+}
+
+/* Pastikan input/select tidak memicu auto-zoom saat difokus di iOS,
+   yang membuat tampilan terasa "tidak bisa di-zoom" secara normal. */
+input, select, textarea, button {
+    font-size: 16px;
+}
+@media (max-width: 640px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* --- Tombol mengambang "Buka Menu": jangan menutupi konten di HP --- */
+@media (max-width: 640px) {
+    #openSidebarBtn {
+        bottom: max(16px, env(safe-area-inset-bottom));
+        left: 16px;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.85rem;
+    }
+    /* Beri ruang kosong di bagian bawah konten supaya tidak tertutup tombol mengambang */
+    main.flex-1 {
+        padding-bottom: 80px !important;
     }
 }
 
