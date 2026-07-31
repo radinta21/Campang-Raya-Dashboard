@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* --- Reset & Latar Belakang Utama --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F4F6F9 !important; /* Latar belakang bersih terang */
+    color: #1E293B;
+}
+
+/* --- Sidebar Light Theme --- */
+#sidebar {
+    background-color: #FFFFFF !important;
+    border-right: 1px solid #E2E8F0;
+    color: #64748B !important;
+}
+
+#sidebar h3 {
+    color: #0F172A !important;
+}
+
+#sidebar a, #sidebar span, #sidebar i {
+    color: #64748B !important;
+}
+
+#sidebar .nav-link:hover, 
+#sidebar a:hover, 
+#sidebar a.active {
+    background-color: #EFF6FF !important; /* Sorotan Biru Lembut */
+    color: #2563EB !important; /* Teks Biru Aktif */
+    border-radius: 8px;
+}
+
+#sidebar a:hover i, #sidebar a.active i {
+    color: #2563EB !important;
+}
+
+/* Submenu Styling */
+#analysisSubmenu a {
+    padding-left: 2.5rem;
+    font-size: 0.9rem;
+}
+
+/* --- Header --- */
+header {
+    background-color: #FFFFFF !important;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+header h1 {
+    color: #0F172A !important;
+}
+
+/* --- Kartu Ringkasan (Metric Cards Modern) --- */
+.metric-card, .bg-white, .ranking-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover, .ranking-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Kotak Ikon Soft/Pas-tel */
+.icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.icon-blue { background-color: #DBEAFE; color: #2563EB; }
+.icon-orange { background-color: #FFEDD5; color: #EA580C; }
+.icon-red { background-color: #FEE2E2; color: #DC2626; }
+.icon-gray { background-color: #F1F5F9; color: #475569; }
+
+/* --- Table Custom Light --- */
+.table-custom {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-custom thead, .table-custom thead tr, .table-custom thead th {
+    background-color: #F8FAFC !important;
+    color: #475569 !important;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.table-custom tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #334155;
+    font-size: 0.875rem;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #F8FAFC !important;
+}
+
+/* --- Container Chart --- */
+.chart-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* --- Responsive: cegah overflow horizontal di seluruh halaman --- */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* Pastikan semua elemen mengikuti box-sizing yang konsisten,
+   supaya padding/border tidak membuat elemen melebar keluar layar. */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Cegah gambar/canvas melebihi lebar kontainernya di HP */
+img, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Beri area scroll horizontal yang halus untuk tabel di HP,
+   alih-alih konten terpotong tanpa bisa digeser. */
+.overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Perbesar area sentuh tombol menu (hamburger) agar mudah di-tap di HP */
+#sidebarToggle {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Responsive: Header --- */
+@media (max-width: 480px) {
+    .header-clock {
+        display: none; /* Sembunyikan jam di layar sangat kecil agar judul tidak sempit */
+    }
+}
+
+/* --- Responsive: Metric & Insight Cards --- */
+@media (max-width: 640px) {
+    .metric-card, .bg-white.p-6 {
+        padding: 1rem !important;
+    }
+    .icon-box {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    .chart-container {
+        height: 260px !important;
+    }
+}
+
+/* --- Responsive: Grid & Chart pada tablet --- */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .chart-container {
+        height: 300px !important;
+    }
+}
+
+/* --- Responsive: layar HP sangat kecil (<=400px) --- */
+@media (max-width: 400px) {
+    header h1 {
+        font-size: 0.85rem !important;
+    }
+    main.flex-1 {
+        padding: 0.75rem !important;
+    }
+    .metric-card, .bg-white.p-6, .bg-white.p-4 {
+        padding: 0.75rem !important;
+    }
+    .chart-container {
+        height: 220px !important;
+    }
+    .table-custom th, .table-custom td {
+        font-size: 0.7rem !important;
+        padding: 6px 8px !important;
+    }
+}
+
+/* Pastikan input/select tidak memicu auto-zoom saat difokus di iOS,
+   yang membuat tampilan terasa "tidak bisa di-zoom" secara normal. */
+input, select, textarea, button {
+    font-size: 16px;
+}
+@media (max-width: 640px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* --- Tombol mengambang "Buka Menu": jangan menutupi konten di HP --- */
+@media (max-width: 640px) {
+    #openSidebarBtn {
+        bottom: max(16px, env(safe-area-inset-bottom));
+        left: 16px;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.85rem;
+    }
+    /* Beri ruang kosong di bagian bawah konten supaya tidak tertutup tombol mengambang */
+    main.flex-1 {
+        padding-bottom: 80px !important;
+    }
+}
+
+/* --- Responsive: Modal detail agar nyaman di HP --- */
+@media (max-width: 640px) {
+    #overviewDetailModal .table-custom th,
+    #overviewDetailModal .table-custom td,
+    #chartDetailModal .table-custom th,
+    #chartDetailModal .table-custom td {
+        font-size: 0.75rem;
+        padding: 8px 10px !important;
+    }
+}
+
+/* --- Responsive: Tabel Ranking Pelanggan Baru --- */
+@media (max-width: 640px) {
+    #newCustomerRankingTable th,
+    #newCustomerRankingTable td {
+        font-size: 0.75rem;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+}
